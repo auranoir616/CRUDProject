@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Likes;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Notifications\deleteNotif;
@@ -34,9 +35,14 @@ class PostController extends Controller
     }
     //mendapatkan semua data dari VIEW post dan menampilkannya secara descending 
     public function allPost(){
+       
         $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('updated_at', 'desc')->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
-        return view('allpost',compact('alldata','comments'));
+        //mengirim data like ke allpost
+        $postIDs = $alldata->pluck('id');
+        $likes = Likes::whereIn('post_id', $postIDs)->get();
+        $likesCount = $likes->groupBy('post_id')->map->count();
+        return view('allpost',compact('alldata','comments','likesCount'));
     }
     //oute untuk menampilkan form data edit
     public function editForm(Post $post){
@@ -103,4 +109,24 @@ class PostController extends Controller
         }
     }
     
+    public function like(Request $request){
+        $user = auth()->user();
+        $postId = $request->input('postId');
+    
+        // Cek apakah user sudah melakukan like pada post tertentu
+        $existingLike = Likes::where('user_id', $user->id)
+                            ->where('post_id', $postId)
+                            ->first();
+        if ($existingLike) {
+            // Jika sudah ada like, hapus like tersebut
+            $existingLike->delete();
+        } else {
+            // Jika belum ada like, tambahkan like baru
+            $like = new Likes;
+            $like->user_id = $user->id;
+            $like->post_id = $postId;
+            $like->save();
+        }
+        return redirect()->back();
+}
 }

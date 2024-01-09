@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Likes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,6 +21,9 @@ class Post extends Model
     public function UserComment(){
         return $this->hasmany(Comment::class, 'post_id');
     }
+    public function Likes(){
+        return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id');
+        }    
 
 
 }

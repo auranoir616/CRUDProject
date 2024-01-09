@@ -66,6 +66,8 @@ Route::get('/{post}', [PostController::class, 'viewPost']);
 
 Route::post('/comment', [PostController::class, 'comment']);
 
+Route::post('/likes/{post}', [PostController::class, 'like']);
+
 
 
 

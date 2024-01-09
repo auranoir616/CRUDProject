@@ -13,8 +13,7 @@
   $name = session('name');	
   $email = session('email');
   $images = session('images');
-
-  
+  $likes = DB::table('likes')->get();  
   ?>
 
     <div>
@@ -88,9 +87,24 @@
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="#">Comments</a>
       </li>
-      <li class="nav-item">
+      <div>
+        <?php
+        $post = $data->id
+        // $like = likes::find($post);
+        ?>
+        <form action="/likes/{{$post}}" method="POST">
+          @csrf
+          <input type="text" value="{{$data->id}}" name="postId" hidden>
+          <button type="submit" class="btn-secondary">
+            {{ auth()->user()->Liked->contains($post) ? 'Unlike' : 'Like' }}
+          </button>
+        </form>
+        
+        <p>Total Likes:{{ $likesCount[$data->id] ?? 0 }}</p>
+      </div>
+      {{-- <li class="nav-item">
         <a class="nav-link" href="#">Like</a>
-      </li>
+      </li> --}}
       <li class="nav-item">
         <a class="nav-link" href="#">Share</a>
       </li>
