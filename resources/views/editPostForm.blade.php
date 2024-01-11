@@ -31,7 +31,7 @@
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body">{{$post->body}}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">save Changes</button>
-        <a href="/mypost" class="btn btn-info">cancel</a>
+        <a href="/myprofile" class="btn btn-info">cancel</a>
 
           </form>
       </div>

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Notifications\deleteNotif;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-
+use Share;
 class PostController extends Controller
 {
     public function createPost(Request $request){
@@ -38,11 +38,12 @@ class PostController extends Controller
        
         $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('updated_at', 'desc')->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
+        $allusers = DB::table('users')->get();
         //mengirim data like ke allpost
         $postIDs = $alldata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
-        return view('allpost',compact('alldata','comments','likesCount'));
+        return view('allpost',compact('alldata','comments','likesCount','allusers'));
     }
     //oute untuk menampilkan form data edit
     public function editForm(Post $post){
@@ -75,7 +76,8 @@ class PostController extends Controller
             }
         }
        $post->update($data);
-       return redirect('mypost');
+       dd($post);
+       return redirect('myprofile')->with('success', 'Data berhasil diupdate');
      
 
     }
@@ -83,13 +85,27 @@ class PostController extends Controller
     public function deletePost(Post $post){
         if(auth()->user()->id === $post['user_id']){
             $post->delete();
-            return redirect('mypost')->with('success', 'Post berhasil dihapus');
+            return redirect('myprofile')->with('success', 'Post berhasil dihapus');
         }
-            return redirect('mypost')->with('error', 'Anda tidak memiliki izin untuk menghapus post ini');
+            return redirect('myprofile')->with('error', 'Anda tidak memiliki izin untuk menghapus post ini');
     }
     //route untuk menampilkan tiap post ke page baru
+    //menambahkan fitur share page
     public function viewPost(Post $post){
-        return view('viewpost', ['post'=>$post]);
+        $id = $post->id;
+        $title = $post->title;
+        $appUrl = url('/');
+        $page = $appUrl.'/'.$id.'-'.$title;
+        $sharepage = Share::page( $page,'share my prototype web')
+        ->facebook()
+        ->twitter()
+        ->linkedin()
+        ->whatsapp()
+        ->pinterest()
+        ->telegram()
+        ->reddit()
+        ->getRawLinks();
+        return view('viewPost',compact('sharepage','post'));
     }
     //controller komentar
     public function comment(Request $request){

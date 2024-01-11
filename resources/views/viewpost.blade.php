@@ -13,41 +13,9 @@
     $name = session('name');	
     ?>
   
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/allpost">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/mypost">my post</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{$name}}
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="/post">Post items</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="/logout">log out</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-
-  <div class="w-100 p-3">
+  @include('_navbar')
+<div class="container-viewpost">
+  <div class="w-75 p-3">
     <div class="card mb-3">
         <img src="./data_file/{{$post->images}}" class="card-img-top" width="100%" height="580px">
         <div class="card-body">
@@ -58,8 +26,24 @@
 
         </div>
       </div>
-      <a href="/allpost">back</a>
   </div>
+  <div class="rowContainer">
+    <div>
+      <button type="button" class="btn btn-warning"> <a href="/allpost">back</a></button>
+    </div>
+      <div class="dropdown-center">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Share This Post
+        </button>
+        <ul class="dropdown-menu">
+          @foreach($sharepage as $key => $value)
+          <li><a class="dropdown-item" href="{{$value}}" target="blank">{{$key}}</a></li>
+          @endforeach
+        </ul>
+      </div>
+  </div>
+</div>
+
     
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -14,10 +15,15 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('testroute', [DataController::class, 'testroute']);
+Route::get('/search',[DataController::class, 'search']);
+Route::get('/profile/{username}',[DataController::class, 'profileData']);
+
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/post', function () {
     if(auth()->check()){
         return view('post');
@@ -29,19 +35,17 @@ Route::get('/post', function () {
 });
 
 Route::get('/registerPage', function () {
-    notify()->success('Laravel Notify is awesome!');
-
     return view('register');
 });
 
 
-Route::get('/mypost', function () {
+Route::get('/myprofile', function () {
     $postdata = [];
     $userdata = [];
         if(auth()->check()){
         $userdata = auth()->user()->get();
         $postdata = auth()->user()->usersPosts()->latest()->get();
-        return view('mypost', ['postdata'=>$postdata]);
+        return view('profile', ['postdata'=>$postdata]);
     }else{
         return redirect('/');
 
@@ -68,8 +72,6 @@ Route::post('/comment', [PostController::class, 'comment']);
 
 Route::post('/likes/{post}', [PostController::class, 'like']);
 
-
-
-
-
+Route::get('/editUserForm/{datauser}',[UserController::class, "editUserForm"]);
+Route::put('/editUser/{datauser}',[UserController::class, 'editUser']);
 

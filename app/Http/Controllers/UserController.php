@@ -53,7 +53,7 @@ class UserController extends Controller
             $user = auth()->user();
             // Menyimpan username ke dalam session untuk digunakan di halaman /post
             session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);
-            return redirect('/mypost');
+            return redirect('/myprofile');
         }else{
             return redirect('/');
         }
@@ -66,4 +66,62 @@ class UserController extends Controller
             
         }
 
+        public function editUserForm(User $datauser){
+            if(!auth()->user()->id ){
+                return redirect('/');
+            }
+            // dd($user);
+            return view('editUserForm',['datauser'=>$datauser]);
+        }
+    
+
+        public function editUser(User $datauser, Request $request)
+        {
+            // Periksa apakah pengguna yang diotorisasi sedang masuk
+            if (!auth()->check()) {
+                return redirect('/');
+            }
+            // Validasi data dari formulir
+            $data = $request->validate([
+                'editName' => ['required'],
+                'editUsername' => ['required', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
+                'editEmail' => ['required', 'email', Rule::unique('users', 'email')->ignore($datauser->id)],
+                'editPassword' => ['sometimes', 'required', 'min:4'],
+                'editImagesProfile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+            ]);
+        
+            // Update password jika ada perubahan
+            if (isset($data['editPassword'])) {
+                $data['editPassword'] = bcrypt($data['editPassword']);
+            }
+            // Proses upload gambar dan penyimpanan data pengguna
+            if ($request->hasFile('editImagesProfile')) {
+                $file = $request->file('editImagesProfile');
+                $nama_file = time() . "_" . $file->getClientOriginalName() . '_UserEdited';
+                $folder_upload = 'data_file';
+                // Simpan data pengguna ke dalam array untuk proses update
+                $userData = [
+                    'name' => $request->editName,
+                    'username' => $request->editUsername,
+                    'email' => $request->editEmail,
+                    'password' => $data['editPassword'] ?? null,
+                    'Images_profile' => $nama_file
+                ];
+                // Update data pengguna
+                $updated = $datauser->update($userData);
+        
+                // Pindahkan file gambar ke folder upload jika update berhasil
+                if ($updated) {
+                    if ($file->move($folder_upload, $nama_file)) {
+                        return redirect('myprofile')->with('success', 'Data user berhasil diupdate');
+                    } else {
+                        return redirect('myprofile')->with('error', 'Gagal mengunggah file');
+                    }
+                } else {
+                    return redirect('myprofile')->with('error', 'Gagal mengupdate data user');
+                }
+            }
+            return redirect('myprofile')->with('success', 'Data user berhasil diupdate');
+        }
+        
 }

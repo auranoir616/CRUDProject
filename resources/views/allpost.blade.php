@@ -6,70 +6,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
 
-    <title>tes</title>
+    <title>proto</title>
 </head>
 <body>
-  <?php 
-  $name = session('name');	
-  $email = session('email');
-  $images = session('images');
-  $likes = DB::table('likes')->get();  
-  ?>
+@include('_navbar')
+@include('_header')
 
-    <div>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/allpost">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/mypost">my post</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{$name}}
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="/post">Post items</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/logout">log out</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-      <div id="row1">
-        <div>
-          <img src="./data_file/{{$images}}" alt="" class="profilePic">
-        </div>
-     
-    <div>
-      <h1>{{$name}} </h1>
-      <h5> {{$email}}</h5>
-    </div>
-      </div>
-      <hr>
+    <div class="containerHome">
+    <aside class="w-25 p-3">
+      <div class="accordion" id="accordionExample">
       
-    </div>
-    <h1>All Post</h1>    
-    </div>
-    <div class="container">
-      <div class="w-75 p-3 ">
-    @foreach ($alldata as $data)
-   
 
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Users
+            </button>
+          </h2>
+          @foreach($allusers as $user)
+          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <img src="./data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
+              <a href="/profile/{{$user->username}}">{{$user->name}}</a>
+            </div>
+          </div>
+          @endforeach
+        </div>
+      </div>
+         
+    </aside>
+    <article class="w-50 p-3">
+    <div class="container">
+      <div>
+    @foreach ($alldata as $data)
 <div class="row g-0 position-relative postCont">
   <div class="col-md-6 mb-md-0 p-md-4">
     <img src="./data_file/{{$data->images}}" class="w-100 images" alt="{{$data->images}}">
@@ -81,13 +50,15 @@
     </div>
     <p class="card-text"><small class="text-body-secondary">Last updated {{$data->updated_at}}</small></p>
     <p class="card-text">by: {{$data->name}}</p>
-    <a href="/{{$data->id}}" >Read More...</a>
+    <a href="/{{$data->id}}-{{$data->title}}" >Read More...</a>
    <div class="commentContainer">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Comments</a>
+    <ul class="nav nav-tabs" >
+
+      <li class="nav-item" style="margin-right: 10px">
+        <p class="nav-link active" aria-current="page" >Comments</p>
       </li>
-      <div>
+
+      <div class="rowContainer">
         <?php
         $post = $data->id
         // $like = likes::find($post);
@@ -95,19 +66,16 @@
         <form action="/likes/{{$post}}" method="POST">
           @csrf
           <input type="text" value="{{$data->id}}" name="postId" hidden>
-          <button type="submit" class="btn-secondary">
+          <button type="submit" class="btn btn-outline-info position-relative">
             {{ auth()->user()->Liked->contains($post) ? 'Unlike' : 'Like' }}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ $likesCount[$data->id] ?? 0 }}
+              <span class="visually-hidden">Likes</span>
+            </span>
           </button>
-        </form>
-        
-        <p>Total Likes:{{ $likesCount[$data->id] ?? 0 }}</p>
+        </form> 
       </div>
-      {{-- <li class="nav-item">
-        <a class="nav-link" href="#">Like</a>
-      </li> --}}
-      <li class="nav-item">
-        <a class="nav-link" href="#">Share</a>
-      </li>
+     
     </ul>
     <div class="comment">
     @foreach ($comments as $comment)
@@ -132,16 +100,18 @@
   
   </div>
 </div>
-
 </div>
 <hr>
 
 @endforeach
     </div>
   </div>
-  <hr>
-    <div>
-      {{ $alldata->appends(['page' => $alldata->currentPage()])->links('pagination::bootstrap-4') }}    </div>
+</article>
+<aside class="w-25 p-3 aside-right">
+
+</aside>
+</div>
+@include('_footer')
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
