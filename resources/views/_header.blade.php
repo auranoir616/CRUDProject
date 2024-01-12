@@ -4,7 +4,7 @@ $user = auth()->user()
 
 <header id="row1">
     <div class="img-fluid">
-      <img src="./data_file/{{$user->Images_profile}}" alt="" class="profilePic">
+      <img src="../data_file/{{$user->Images_profile}}" alt="" class="profilePic">
     </div>
  
 <div class="container-data-header">

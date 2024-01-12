@@ -11,15 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('recipient_id')->constrained('users');
-            $table->text('content');
-            $table->string('id_chat');
-            $table->timestamps();
-        });
-
+        Schema::drop('likess');
     }
 
     /**

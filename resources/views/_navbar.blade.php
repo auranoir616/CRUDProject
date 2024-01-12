@@ -26,7 +26,7 @@ $user = auth()->user()
                 {{$name}}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/messages">Messages</a></li>
+                <li><a class="dropdown-item" href="/messages/{{$user->id}}">Messages</a></li>
                 <li><a class="dropdown-item" href="/editUserForm/{{$user->id}}">Edit profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/logout">log out</a></li>

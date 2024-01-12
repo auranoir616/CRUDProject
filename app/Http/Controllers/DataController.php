@@ -35,30 +35,40 @@ class DataController extends Controller
     }
 
     public function messagesPage(User $datauser){
-        $sender = auth()->user();
-        $reciever = $datauser->id;
-        //!
-        return view('message', compact('sender','reciever'));
+        $sender = auth()->id();
+        $receiver = $datauser->id;
+        $sendto = $sender.$receiver;
+        $receivefrom = $receiver.$sender;
+        $userdata = DB::table('users')->whereNotIn('id',[$sender])->get();
+        $messagesSender = DB::table('messages')
+                            ->where('id_chat',$sendto)
+                            ->orwhere('id_chat',$receivefrom)
+                            ->orderBy('updated_at')
+                            ->get();
 
+        return view('message', compact('sender','receiver','messagesSender','userdata'));
     }
 
     public function sendMessages(Messages $msg, Request $request){
         $data = $request->validate([
             'content' => 'required',
         ]);
+        $sender = auth()->user();
+        $receiver = $request->input('reciever');
         if($data){
             $messages = new Messages;
             $messages->content = $request->input('content'); 
             $messages->recipient_id = $request->input('reciever');
+            $messages->id_chat = $sender->id.$request->input('reciever');
             $messages->user_id = auth()->id();
-            $messages->save();
-            //agar tidak kembali ke page 1
-        return redirect()->back(); 
+       if($messages->save()){
+        return redirect()->back();
+        // return view('message', compact('messagesdata','sender','receiver')); 
+       }else{
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin');
+       }
     }else{
         return redirect()->back()->with('error', 'Anda tidak memiliki izin');
     }
-
-
-
     }
 }

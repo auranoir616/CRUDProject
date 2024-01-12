@@ -132,16 +132,22 @@ body{
 }
 .container-user-mgs{
     border: 2px solid black;
+     display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;
+
 }
 .container-chat-msg{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     border: 2px solid black;
-
+    height: 100%;
 }
 .container-chat-msg2{
     height: 90%;
     border: 2px solid black;
+    overflow: auto;
+
 
 }

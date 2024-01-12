@@ -26,9 +26,10 @@
           @foreach($allusers as $user)
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <img src="./data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
-              <a href="/profile/{{$user->username}}">{{$user->name}}</a>
-              <button type="button" class="btn btn-info btn-sm"><a href="/messages/{{$user->id}}">chat</a></button>
+              <div>
+                <img src="./data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
+                <a href="/profile/{{$user->username}}" class="">{{$user->name}}</a>
+              </div>
             </div>
             <hr>
           </div>

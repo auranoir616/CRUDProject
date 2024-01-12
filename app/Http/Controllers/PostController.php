@@ -35,10 +35,10 @@ class PostController extends Controller
     }
     //mendapatkan semua data dari VIEW post dan menampilkannya secara descending 
     public function allPost(){
-       
+       $user = auth()->id();
         $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('updated_at', 'desc')->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
-        $allusers = DB::table('users')->get();
+        $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
         //mengirim data like ke allpost
         $postIDs = $alldata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
