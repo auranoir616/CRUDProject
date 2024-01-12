@@ -28,7 +28,9 @@
             <div class="accordion-body">
               <img src="./data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
               <a href="/profile/{{$user->username}}">{{$user->name}}</a>
+              <button type="button" class="btn btn-info btn-sm"><a href="/messages/{{$user->id}}">chat</a></button>
             </div>
+            <hr>
           </div>
           @endforeach
         </div>

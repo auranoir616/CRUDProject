@@ -45,7 +45,9 @@
             <input type="file" class="form-control" id="exampleFormControlInput1" name="editImagesProfile" value="{{$datauser->Image_profile}}">
           </div>
       
-          <button type="submit" class="btn btn-primary">Edit</button>
+          <button type="submit" class="btn btn-primary">Edit</button> 
+
+          <button type="button" class="btn btn-danger"><a href="/myprofile">Back</a></button> 
 
         </form>
         @else

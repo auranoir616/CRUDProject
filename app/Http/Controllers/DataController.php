@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Share;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Messages;
 
 class DataController extends Controller
 
@@ -32,5 +34,31 @@ class DataController extends Controller
         return view('searchResults', compact('results'));
     }
 
+    public function messagesPage(User $datauser){
+        $sender = auth()->user();
+        $reciever = $datauser->id;
+        //!
+        return view('message', compact('sender','reciever'));
 
+    }
+
+    public function sendMessages(Messages $msg, Request $request){
+        $data = $request->validate([
+            'content' => 'required',
+        ]);
+        if($data){
+            $messages = new Messages;
+            $messages->content = $request->input('content'); 
+            $messages->recipient_id = $request->input('reciever');
+            $messages->user_id = auth()->id();
+            $messages->save();
+            //agar tidak kembali ke page 1
+        return redirect()->back(); 
+    }else{
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin');
+    }
+
+
+
+    }
 }

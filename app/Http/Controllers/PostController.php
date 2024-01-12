@@ -76,7 +76,6 @@ class PostController extends Controller
             }
         }
        $post->update($data);
-       dd($post);
        return redirect('myprofile')->with('success', 'Data berhasil diupdate');
      
 

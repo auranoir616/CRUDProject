@@ -10,7 +10,7 @@ $user = auth()->user()
 <div class="container-data-header">
   <h1>{{$user->name}} </h1>
   <h5> {{$user->email}}</h5>
-  <a class="btn btn-info" href="/editUserForm/{{$user->id}}">Edit profile</a>
+  <a class="btn btn-info" href="/post">Create a post</a>
 </div>
 </header>
 <hr>

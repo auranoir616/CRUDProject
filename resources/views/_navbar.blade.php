@@ -3,6 +3,7 @@ $name = session('name');
 $email = session('email');
 $images = session('images');
 $likes = DB::table('likes')->get();  
+$user = auth()->user()
 ?>
 
 <navbar>
@@ -25,8 +26,8 @@ $likes = DB::table('likes')->get();
                 {{$name}}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Messages</a></li>
-                <li><a class="dropdown-item" href="/post">Post items</a></li>
+                <li><a class="dropdown-item" href="/messages">Messages</a></li>
+                <li><a class="dropdown-item" href="/editUserForm/{{$user->id}}">Edit profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/logout">log out</a></li>
               </ul>

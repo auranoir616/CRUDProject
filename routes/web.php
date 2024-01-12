@@ -18,18 +18,15 @@ use App\Http\Controllers\UserController;
 Route::get('testroute', [DataController::class, 'testroute']);
 Route::get('/search',[DataController::class, 'search']);
 Route::get('/profile/{username}',[DataController::class, 'profileData']);
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/messages/{datauser}',[DataController::class, 'messagesPage']);
+Route::post('/sendmsg',[DataController::class, 'sendMessages']);
+Route::get('/', [UserController::class, 'loginPage']);
 
 Route::get('/post', function () {
     if(auth()->check()){
         return view('post');
     }else{
         return redirect('/');
-
     }
 ;
 });

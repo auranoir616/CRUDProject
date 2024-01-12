@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+
+    public function loginPage(){
+        return view('welcome');
+    }
+    public function registerPage(){
+        return view('register');
+    }
+
     public function register(Request $request){
         $data = $request->validate([
 
@@ -35,9 +43,9 @@ class UserController extends Controller
                     'password'=>$request->registerPassword,
                     'Images_profile'=> $nama_file
                 ]);
-               return redirect('/');
-            } else {
-                return 'Gagal register';
+               return redirect('/')->with('success', 'berhasil register');
+            }else {
+                return redirect('/')->with('error', 'gagal register');
             }
         }
        
@@ -53,16 +61,16 @@ class UserController extends Controller
             $user = auth()->user();
             // Menyimpan username ke dalam session untuk digunakan di halaman /post
             session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);
-            return redirect('/myprofile');
+            return redirect('/myprofile')->with('success', 'berhasil login');;
         }else{
-            return redirect('/');
+            return redirect('/')->with('error','Username atau password salah');
         }
        
     }
 
     public function logOut(){
         auth()->logout();
-        return redirect('/');
+        return redirect('/')->with('success', 'berhasil logout');
             
         }
 
