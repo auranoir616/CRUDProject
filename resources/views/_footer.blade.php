@@ -1,8 +1,7 @@
 
-
-<footer>
+<footer class="footer">
     <hr>
-      <div>
+      <div style="align-self: center">
         {{ $alldata->appends(['page' => $alldata->currentPage()])->links('pagination::bootstrap-4') }}  
       </div>
     </footer>

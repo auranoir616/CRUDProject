@@ -38,17 +38,16 @@
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="editPassword" value="{{$datauser->password}}">
+            <input type="password" class="form-control" id="exampleInputPassword1" name="editPassword" value="">
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">images</label>
             <input type="file" class="form-control" id="exampleFormControlInput1" name="editImagesProfile" value="{{$datauser->Image_profile}}">
           </div>
-      
-          <button type="submit" class="btn btn-primary">Edit</button> 
-
-          <button type="button" class="btn btn-danger"><a href="/myprofile">Back</a></button> 
-
+          <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="submit" class="btn btn-dark">Save</button> 
+          <button type="button" class="btn btn-secondary"><a href="/myprofile" class="link-light">Cancel</a></button> 
+          </div>
         </form>
         @else
         <h1>belum login</h1>

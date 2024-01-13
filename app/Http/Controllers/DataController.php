@@ -43,7 +43,7 @@ class DataController extends Controller
         $messagesSender = DB::table('messages')
                             ->where('id_chat',$sendto)
                             ->orwhere('id_chat',$receivefrom)
-                            ->orderBy('updated_at')
+                            ->orderBy('updated_at','desc')
                             ->get();
 
         return view('message', compact('sender','receiver','messagesSender','userdata'));

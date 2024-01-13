@@ -43,8 +43,9 @@
       <label for="exampleFormControlTextarea1" class="form-label">description</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-
+    <div class="d-grid gap-2 col-6 mx-auto">
+    <button type="submit" class="btn btn-secondary ">Post</button>
+    </div>
       </form>
   </div>
   @else

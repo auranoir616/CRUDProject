@@ -15,33 +15,41 @@
   
   @include('_navbar')
 <div class="container-viewpost">
-  <div class="rowContainer">
-    <div>
-      <button type="button" class="btn btn-danger"> <a href="#" onclick="window.history.back(); return false;">back</a></button>
-    </div>
-      <div class="dropdown-center">
-        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Share This Post
-        </button>
-        <ul class="dropdown-menu">
-          @foreach($sharepage as $key => $value)
-          <li><a class="dropdown-item" href="{{$value}}" target="blank">{{$key}}</a></li>
-          @endforeach
-        </ul>
-      </div>
-  </div>
   <div class="w-100 p-3">
-    <div class="card mb-3">
-        <img src="./data_file/{{$post->images}}" class="card-img-top" height="580px">
+    <div class="w-100 p-3">
+      <div class="container-view-images">
+        <img src="./data_file/{{$post->images}}" class="" height="60%" width="60%">
+      </div>
+      <hr>
         <div class="card-body">
+          <div class="rowContainer">
+              <div class="dropdown-center">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Share This Post
+                </button>
+                <ul class="dropdown-menu">
+                  @foreach($sharepage as $key => $value)
+                  <li><a class="dropdown-item" href="{{$value}}" target="blank">{{$key}}</a></li>
+                  @endforeach
+                </ul>
+              </div>
+          </div>
+        
           <h1 class="card-title">{{$post->title}}</h1>
           <p class="card-text">{{$post->body}}</p>
           <p class="card-text"><small class="text-body-secondary">Last updated {{$post->updated_at}}</small></p>
           <p class="card-text">{{$post->name}}</p>
 
         </div>
+        <div>
+          <hr width="20%">
+          <button type="button" class="btn btn-light"> <a href="#" onclick="window.history.back(); return false;">back</a></button>
+        </div>
       </div>
+      
+    
   </div>
+
 </div>
 
     

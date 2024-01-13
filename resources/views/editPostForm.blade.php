@@ -12,7 +12,7 @@
     @auth
     <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded w-25 p-3 position-absolute top-50 start-50 translate-middle" >
       {{--! tambahkan  enctype="multipart/form-data" jika ada upload file--}}
-      <h2 class="title">edit</h2>
+      <h2 class="title" align='center'>Edit Post</h2>
           <form action="/editpost/{{$post->id}}" method="POST" enctype="multipart/form-data"> 
               @csrf
               @method('PUT')
@@ -30,9 +30,12 @@
           <label for="exampleFormControlTextarea1" class="form-label">description</label>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body">{{$post->body}}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">save Changes</button>
-        <a href="/myprofile" class="btn btn-info">cancel</a>
-
+        <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-dark">Save</button>
+        <button type="submit" class="btn btn-secondary">
+        <a href="/myprofile" class="link-light">cancel</a>
+        </button>
+        </div>
           </form>
       </div>
       @else

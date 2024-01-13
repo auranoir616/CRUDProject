@@ -7,9 +7,11 @@ $user = auth()->user()
 ?>
 
 <navbar>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary  bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">
+          <img src="../logo.png" alt="Bootstrap" width="60" height="60" style="border-radius: 50px">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -35,7 +37,7 @@ $user = auth()->user()
           </ul>
           <form class="d-flex" action="/search" method="GET" >
             <input class="form-control me-2" placeholder="Search" aria-label="Search" name="query">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-light" type="submit">Search</button>
           </form>
         </div>
       </div>

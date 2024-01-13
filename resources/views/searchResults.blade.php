@@ -13,6 +13,7 @@
     @include('_navbar')
     <div>
         <h2>Hasil pencarian</h2>
+        <hr>
         @if ($results->isEmpty())
             <h2>tidak ada hasil</h2>
         @else

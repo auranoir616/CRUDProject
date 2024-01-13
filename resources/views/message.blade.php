@@ -39,12 +39,13 @@
             </div>
 
 {{-- message --}}
-        
+        <?php
+        ?>
             <div class="container-chat-msg w-50 p-3">
-                <div class="container-chat-msg2">
+                <div class="container-chat-msg2 w-100 p-3">
                     @foreach($messagesSender as $msg)
                     @if($sender == $msg->user_id)
-                    <div class="alert alert-info" role="alert">
+                    <div class="alert alert-info msg" role="alert">
                         <figure class="text-end">
                             <blockquote class="blockquote">
                               <p> {{$msg->content}}</p>
@@ -72,6 +73,8 @@
                 </div>
                 <div class="container-form">
                     <form action="/sendmsg" method="POST" id="sendMessageForm">
+                        {{-- <form id="sendMessageForm"> --}}
+
                         @csrf
                         <input type="text" name="reciever" value=" {{$receiver}}" hidden>
                         <div class="input-group mb-3">
