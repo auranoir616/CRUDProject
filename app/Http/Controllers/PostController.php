@@ -75,9 +75,9 @@ class PostController extends Controller
                 $folder_upload = 'data_file';
     
                 if($file->move($folder_upload, $nama_file)){
-                    $data['images'] =$nama_file;
+                    $data['images'] = $nama_file;
                 } else {
-                    return 'Gagal mengunggah file';
+                    return redirect()->back()->with('error', 'gagal update data');
                 }
             }
            $post->update($data);

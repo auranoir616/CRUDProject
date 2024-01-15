@@ -63,7 +63,7 @@
               @csrf
               @method('DELETE')
               <div class="d-grid gap-2 col-6 mx-auto" style="margin: 20px">
-              <button class="btn btn-secondary">
+              <button class="btn btn-secondary" type="button">
                 <a href="/editform/{{$data->id}}" class="link-light">Edit</a>
               </button>
               <button type="submit" class="btn btn-dark">Delete</button>

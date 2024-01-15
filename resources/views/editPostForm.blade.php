@@ -3,8 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <title>edit post</title>
 </head>
@@ -21,7 +22,7 @@
     @auth
     <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded w-25 p-3 position-absolute top-50 start-50 translate-middle" >
       {{--! tambahkan  enctype="multipart/form-data" jika ada upload file--}}
-      <h2 class="title" align='center'>Edit Post</h2>
+      <h2 class="title">Edit Post</h2>
           <form action="/editpost/{{$post->id}}" method="POST" enctype="multipart/form-data"> 
               @csrf
               @method('PUT')
@@ -41,7 +42,7 @@
         </div>
         <div class="d-grid gap-2 col-6 mx-auto">
         <button type="submit" class="btn btn-dark">Save</button>
-        <button type="submit" class="btn btn-secondary">
+        <button type="button" class="btn btn-secondary">
         <a href="/myprofile" class="link-light">cancel</a>
         </button>
         </div>

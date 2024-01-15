@@ -17,7 +17,9 @@ use App\Http\Controllers\UserController;
 |
 */
 Route::get('testroute', [DataController::class, 'testroute']);
+
 Route::get('/search',[DataController::class, 'search']);
+
 Route::get('/profile/{username}',[DataController::class, 'profileData']);
 Route::get('/messages/{datauser}',[DataController::class, 'messagesPage']);
 // Route::get('/messages/{datauser}', function(User $datauser){
