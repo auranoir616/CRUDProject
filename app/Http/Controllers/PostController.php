@@ -87,10 +87,14 @@ class PostController extends Controller
     }
     //route untuk delete post
     public function deletePost(Post $post){
-        if(auth()->user()->id === $post['user_id']){
+        $msg = auth()->user()->id == $post['user_id'];
+        if(auth()->user()->id == $post['user_id']){
             $post->delete();
+
+         dd($msg);
             return redirect('myprofile')->with('success', 'Post berhasil dihapus');
         }
+        dd($msg);
             return redirect('myprofile')->with('error', 'Anda tidak memiliki izin untuk menghapus post ini');
     }
     //route untuk menampilkan tiap post ke page baru
