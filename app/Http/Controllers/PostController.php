@@ -37,7 +37,7 @@ class PostController extends Controller
     public function allPost(){
         try{
        $user = auth()->id();
-        $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('updated_at', 'desc')->paginate(5);
+        $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('created_at', 'desc')->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
         $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
          } catch (\Exception $e) {
