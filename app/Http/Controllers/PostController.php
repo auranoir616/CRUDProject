@@ -41,7 +41,7 @@ class PostController extends Controller
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
         $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
          } catch (\Exception $e) {
-            // dd($e->getMessage());
+            dd($e->getMessage());
          }
 
         $postIDs = $alldata->pluck('id');
