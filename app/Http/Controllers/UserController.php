@@ -91,9 +91,9 @@ class UserController extends Controller
             }
             // Validasi data dari formulir
             $data = $request->validate([
-                'editName' => ['required','sometimes'],
-                'editUsername' => ['required','sometimes', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
-                'editEmail' => ['required','sometimes', 'email', Rule::unique('users', 'email')->ignore($datauser->id)],
+                'editName' => ['required',],
+                'editUsername' => ['required', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
+                'editEmail' => ['required','email', Rule::unique('users', 'email')->ignore($datauser->id)],
                 'editPassword' => ['sometimes', 'required', 'min:4'],
                 'editImagesProfile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
             ]);
@@ -108,15 +108,15 @@ class UserController extends Controller
                 $nama_file = time() . "_" . $file->getClientOriginalName() . '_UserEdited';
                 $folder_upload = 'data_file';
                 // Simpan data pengguna ke dalam array untuk proses update
-                $userData = [
-                    'name' => $request->editName,
-                    'username' => $request->editUsername,
-                    'email' => $request->editEmail,
-                    'password' => $data['editPassword'] ?? null,
-                    'Images_profile' => $nama_file
-                ];
+                // $userData = [
+                //     'name' => $request->editName ?? null,
+                //     'username' => $request->editUsername ?? null,
+                //     'email' => $request->editEmail ?? null,
+                //     'password' => $data['editPassword'] ?? null,
+                //     'Images_profile' => $nama_file
+                // ];
                 // Update data pengguna
-                $updated = $datauser->update($userData);
+                $updated = $datauser->update($data);
         
                 // Pindahkan file gambar ke folder upload jika update berhasil
                 if ($updated) {

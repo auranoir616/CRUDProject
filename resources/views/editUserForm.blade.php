@@ -26,15 +26,15 @@
       
             <div class="mb-3 ">
               <label for="exampleInputEmail1" class="form-label">Name</label>
-              <input type="text" class="form-control" name="editName" value="">
+              <input type="text" class="form-control" name="editName" value="{{$datauser->name}}">
             </div>
             <div class="mb-3 ">
               <label for="exampleInputEmail1" class="form-label">Email</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="editEmail" value="">
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="editEmail" value="{{$datauser->email}}">
             </div>
          <div class="mb-3 ">
             <label for="exampleInputEmail1" class="form-label">Username</label>
-            <input type="text" class="form-control" name="editUsername" value="">
+            <input type="text" class="form-control" name="editUsername" value="{{$datauser->username}}">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -42,7 +42,7 @@
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">images</label>
-            <input type="file" class="form-control" id="exampleFormControlInput1" name="editImagesProfile" value="">
+            <input type="file" class="form-control" id="exampleFormControlInput1" name="editImagesProfile" value="{{$datauser->Image_profile}}">
           </div>
           <div class="d-grid gap-2 col-6 mx-auto">
           <button type="submit" class="btn btn-dark">Save</button> 
