@@ -109,7 +109,7 @@ class PostController extends Controller
         ->telegram()
         ->reddit()
         ->getRawLinks();
-        return view('viewPost',compact('sharepage','post'));
+        return view('viewpost',compact('sharepage','post'));
     }
     //controller komentar
     public function comment(Request $request){
