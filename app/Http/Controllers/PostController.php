@@ -52,37 +52,42 @@ class PostController extends Controller
     }
     //oute untuk menampilkan form data edit
     public function editForm(Post $post){
-        if(auth()->user()->id !== $post['user_id']){
-            return redirect('/');
+        if(auth()->user()->id == $post['user_id']){
+            return view('editPostForm',['post'=>$post]);
+        }else{
+            return redirect()->back()->with('error', 'gagal update data');
         }
-        return view('editPostForm',['post'=>$post]);
+       
 
   
     }
     //route untuk post data editing 
     public function editPost(Post $post, Request $request){
-        if(auth()->user()->id !== $post['user_id']){
-            return redirect('/');
-        }
-        $data = $request->validate([
-            'title'=> 'required',
-            'body'=> 'required',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-        if($request->hasFile('images')){
-            $file = $request->file('images');
-            $nama_file = time()."_".$file->getClientOriginalName().'_edited';
-            $folder_upload = 'data_file';
-
-            if($file->move($folder_upload, $nama_file)){
-                $data['images'] =$nama_file;
-            } else {
-                return 'Gagal mengunggah file';
+        if(auth()->user()->id == $post['user_id']){
+            $data = $request->validate([
+                'title'=> 'required',
+                'body'=> 'required',
+                'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+            if($request->hasFile('images')){
+                $file = $request->file('images');
+                $nama_file = time()."_".$file->getClientOriginalName().'_edited';
+                $folder_upload = 'data_file';
+    
+                if($file->move($folder_upload, $nama_file)){
+                    $data['images'] =$nama_file;
+                } else {
+                    return 'Gagal mengunggah file';
+                }
             }
+           $post->update($data);
+           return redirect('myprofile')->with('success', 'Data berhasil diupdate');
+         
+        }else{
+            return redirect()->back()->with('error', 'gagal update data');
+
         }
-       $post->update($data);
-       return redirect('myprofile')->with('success', 'Data berhasil diupdate');
-     
+      
 
     }
     //route untuk delete post
