@@ -35,15 +35,20 @@ class PostController extends Controller
     }
     //mendapatkan semua data dari VIEW post dan menampilkannya secara descending 
     public function allPost(){
+        try{
        $user = auth()->id();
         $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('updated_at', 'desc')->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
         $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
-        //mengirim data like ke allpost
+         } catch (\Exception $e) {
+            dd($e->getMessage());
+         }
+
         $postIDs = $alldata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
         return view('allpost',compact('alldata','comments','likesCount','allusers'));
+       
     }
     //oute untuk menampilkan form data edit
     public function editForm(Post $post){
