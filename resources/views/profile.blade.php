@@ -89,15 +89,15 @@
     document.getElementById('loadingOverlay').style.display= 'block'
     document.getElementById('content').style.display= 'none'
 
-    setTimeout(() => {
+    // setTimeout(() => {
+    // document.getElementById('loadingOverlay').style.display= 'none'
+    // document.getElementById('content').style.display= 'block'
+
+    // }, 1000);
+
+    document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('loadingOverlay').style.display= 'none'
     document.getElementById('content').style.display= 'block'
-
-    }, 1000);
-
-  //   document.addEventListener('DOMContentLoaded', function(){
-  //   document.getElementById('loadingOverlay').style.display= 'none'
-  //   document.getElementById('content').style.display= 'block'
-  // })
+  })
 </script>
 </html>
