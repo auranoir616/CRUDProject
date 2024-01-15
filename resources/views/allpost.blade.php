@@ -61,7 +61,7 @@
     <div class="over">
       <p class="card-text">{{$data->body}}</p>
     </div>
-    <p class="card-text"><small class="text-body-secondary">Last updated {{$data->updated_at}}</small></p>
+    <p class="card-text"><small class="text-body-secondary">Last updated {{$data->created_at}}</small></p>
     <p class="card-text">by: {{$data->name}}</p>
     <a href="/{{$data->id}}-{{$data->title}}" >Read More...</a>
    <div class="commentContainer">
