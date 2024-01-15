@@ -7,7 +7,7 @@
     <link href="style.css" rel="stylesheet">
     
 
-    <title>proto</title>
+    <title>fishbook|home</title>
 </head>
 <body>
 <div id="loadingOverlay">
