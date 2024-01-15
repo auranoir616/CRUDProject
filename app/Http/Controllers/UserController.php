@@ -91,10 +91,10 @@ class UserController extends Controller
             }
             // Validasi data dari formulir
             $data = $request->validate([
-                'editName' => ['nullable'],
-                'editUsername' => ['nullable', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
-                'editEmail' => ['nullable', 'email', Rule::unique('users', 'email')->ignore($datauser->id)],
-                'editPassword' => ['nullable', 'min:4'],
+                'editName' => ['required','sometimes'],
+                'editUsername' => ['required','sometimes', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
+                'editEmail' => ['required','sometimes', 'email', Rule::unique('users', 'email')->ignore($datauser->id)],
+                'editPassword' => ['sometimes', 'required', 'min:4'],
                 'editImagesProfile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
             ]);
         
