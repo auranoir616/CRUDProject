@@ -37,17 +37,16 @@ class PostController extends Controller
     public function allPost(){
         try{
        $user = auth()->id();
-        $alldata = DB::table('allpost')->whereNotNull('title')->orderBy('created_at', 'desc')->paginate(5);
+        $postdata = DB::table('allpost')->whereNotNull('title')->orderBy('created_at', 'desc')->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
-        $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
          } catch (\Exception $e) {
             dd($e->getMessage());
          }
 
-        $postIDs = $alldata->pluck('id');
+        $postIDs = $postdata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
-        return view('allpost',compact('alldata','comments','likesCount','allusers'));
+        return view('allpost',compact('postdata','comments','likesCount',));
        
     }
     //oute untuk menampilkan form data edit
@@ -141,7 +140,6 @@ class PostController extends Controller
     public function like(Request $request){
         $user = auth()->user();
         $postId = $request->input('postId');
-    
         // Cek apakah user sudah melakukan like pada post tertentu
         $existingLike = Likes::where('user_id', $user->id)
                             ->where('post_id', $postId)

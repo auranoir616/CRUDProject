@@ -16,8 +16,7 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('testroute', [DataController::class, 'testroute']);
-
+Route::get('/listusers',[DataController::class, "listUsers"]);
 Route::get('/search',[DataController::class, 'search']);
 
 Route::get('/profile/{username}',[DataController::class, 'profileData']);
@@ -46,19 +45,7 @@ Route::get('/registerPage', function () {
 });
 
 
-Route::get('/myprofile', function () {
-    $postdata = [];
-    $userdata = [];
-        if(auth()->check()){
-        $userdata = auth()->user()->get();
-        $postdata = auth()->user()->usersPosts()->latest()->get();
-        return view('profile', ['postdata'=>$postdata]);
-    }else{
-        return redirect('/');
-
-    }
-
-});
+Route::get('/myprofile', [DataController::class, 'dataMyProfile']);
 
 Route::get('/allpost', [PostController::class, 'allPost'])->name('allpost');
 

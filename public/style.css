@@ -4,6 +4,7 @@
 }
 body{
     background-color: rgb(244, 247, 247);
+
 }
 .container-data-header{
     margin: 5px;
@@ -34,6 +35,7 @@ body{
     width: 100px;
 
 }
+/* ! */
 .container{
     display: flex;
     justify-content: center;
@@ -83,16 +85,22 @@ body{
     margin: 0;
     align-self: flex-end;
 }
+.colContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
 .mypostover{
     height: 10rem;
-    overflow: auto;
+    overflow: hidden;
+    background-color: rgb(241, 241, 241);
 }
-
-.containerHome{
+.readMore{
+    margin-top: 10px;
+    align-items: end;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100vw;
+    justify-content: end;
 }
 
 .thumbnailImgProfile{
@@ -111,11 +119,7 @@ body{
     object-fit: cover;
 
 }
-.post-container-profile{
-    display:flex; 
-    flex-wrap:wrap;
-     justify-content:left;
-}
+
 .aside-right{
     height: 100%;
     width: 100%;
@@ -143,8 +147,12 @@ body{
      display: flex;
      flex-direction: column;
      flex-wrap: wrap;
-
+     justify-content: center;
+     align-items: center;
+     width: auto;
+     background-color: aqua;
 }
+
 .container-chat-msg{
     background-color: white;
     height: 90%; 
@@ -186,4 +194,53 @@ body{
     width: 100%;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+    height: 75px;
+}
+/* allpost */
+.containerHome{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+
+}
+.items-home{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+/* profile */
+.container-image-post-profile {
+    display: flex;
+    flex-wrap: wrap;
+    height: 700px;
+    width: 100%;
+}
+
+.container-image-post-profile img {
+    max-width: 100%;
+    /* height: auto; */
+}
+.card-profile{
+    flex-direction: column;
+}
+.ImgProfile{
+    border-radius: 25px;
+    max-height: 75%;
+    max-width: 75%;
+    min-height: 25%;
+    min-width: 25%;
+    background-color: blueviolet;
+}
+.fluid{
+    border-radius: 25px;
+
+    max-height: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    min-width: 100%;
 }

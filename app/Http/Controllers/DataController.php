@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Share;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Likes;
+use App\Models\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Messages;
 
 class DataController extends Controller
 
@@ -37,6 +38,7 @@ class DataController extends Controller
     public function messagesPage(User $datauser){
         $sender = auth()->id();
         $receiver = $datauser->id;
+        $receiverName = $datauser->name;
         $sendto = $sender.$receiver;
         $receivefrom = $receiver.$sender;
         $userdata = DB::table('users')->whereNotIn('id',[$sender])->get();
@@ -46,7 +48,7 @@ class DataController extends Controller
                             ->orderBy('updated_at','desc')
                             ->get();
 
-        return view('message', compact('sender','receiver','messagesSender','userdata'));
+        return view('message', compact('sender','receiver','messagesSender','userdata','datauser'));
     }
 
     public function sendMessages(Messages $msg, Request $request){
@@ -70,5 +72,31 @@ class DataController extends Controller
     }else{
         return redirect()->back()->with('error', 'Anda tidak memiliki izin');
     }
+    }
+
+    public function listUsers(){
+        $user = auth()->id(); //menampilkan data user kecuali yang sedang login
+        $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
+
+        return view('listusers',compact('allusers'));
+    }
+
+    public function dataMyProfile(){
+        if(auth()->check()){
+            $user = auth()->id();
+            $postdata = [];
+            $userdata = [];
+                $userdata = auth()->user()->get();
+                $postdata = auth()->user()->usersPosts()->latest()->paginate(3);
+                $postIDs = $postdata->pluck('id');
+                $likes = Likes::whereIn('post_id', $postIDs)->get();
+                $likesCount = $likes->groupBy('post_id')->map->count();
+                $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
+                return view('profile', compact('postdata','likesCount','comments'));
+            }else{
+                return redirect('/');
+        
+            }
+        
     }
 }

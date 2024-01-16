@@ -23,35 +23,10 @@
 @include('_header')
 
     <div class="containerHome">
-    <aside class="w-25 p-3">
-      <div class="accordion" id="accordionExample">
-      
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Users
-            </button>
-          </h2>
-          @foreach($allusers as $user)
-          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              <div>
-                <img src="./data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
-                <a href="/profile/{{$user->username}}" class="">{{$user->name}}</a>
-              </div>
-            </div>
-            <hr>
-          </div>
-          @endforeach
-        </div>
-      </div>
-         
-    </aside>
-    <article class="w-50 p-3">
+    <article class="w-100 p-3 items-home">
     <div class="container">
       <div>
-    @foreach ($alldata as $data)
+    @foreach ($postdata as $data)
 <div class="row g-0 position-relative postCont">
   <div class="col-md-6 mb-md-0 p-md-4">
     <img src="./data_file/{{$data->images}}" class="w-100 images" alt="{{$data->images}}">
@@ -99,6 +74,7 @@
   
    @endforeach
   </div>
+  {{--! form comments --}}
    <div>
     <form action="/comment" method="POST">
       @csrf
@@ -108,9 +84,9 @@
           <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
       </div>
     </form>
-    
    </div>
-  
+    {{--! form comments --}}
+
   </div>
 </div>
 </div>
@@ -120,9 +96,6 @@
     </div>
   </div>
 </article>
-<aside class="w-25 p-3 aside-right">
-
-</aside>
 </div>
 @include('_footer')
 </div>
