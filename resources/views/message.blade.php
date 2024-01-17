@@ -26,24 +26,22 @@
       @endif
 {{-- users --}}
       </div>
-          <div class="container-all-msg">
-        <div class="w-100 p-3 container-all-msg2">
-            {{-- <div class="container-user-mgs w-25 p-3"> --}}
-                    {{-- <div class="ImgProfile">
-                        <img src="../data_file/{{$datauser->Images_profile}}" alt="" class="fluid">
-                    </div> --}}
-                    {{-- <div> --}}
-                      <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                    
-                  @if($sender == $receiver)
-                  <h3>tap to start message</h3>
-                  @else
-                  {{$receiverName}}
-                  @endif
-                      </button>                           
-                       
-                    {{-- </div> --}}
-                    {{-- </div> --}}
+        <div class="w-100 p-3 container-all-msg">
+          <div class="cont-btn-msg">  
+            @if($sender == $receiver) 
+
+              
+            <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <h4>tap to start message</h4>
+            </button>
+            @else
+            <div class="img-receiver">
+              <img src="../data_file/{{$datauser->Images_profile}}" alt="{{$receiverName}}" class="image" >
+            </div> 
+            <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <h4>{{$receiverName}}</h4>
+                </button>                           
+            @endif
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasExampleLabel">Users</h5>
@@ -60,14 +58,13 @@
                 </div>
                 </div>
               </div>
-            
-            
+            </div>
 
 {{-- message --}}
         <?php
         ?>
-            <div class="container-chat-form w-100 p-3">
-                <div class="container-chat-msg w-100 p-3">
+            <div class="container-chat-form">
+                <div class="container-chat-msg">
                   @if($sender == $receiver) 
                     <h1 class="no-msg">no messages</h1>
                   @endif
@@ -93,8 +90,6 @@
                               send <cite title="Source Title">{{$msg->created_at}}</cite>
                             </figcaption>
                           </figure>
-
-
                         </div>
                         @endif
                       @endforeach
@@ -112,7 +107,6 @@
                     </form>
                 </div>
             </div>
-        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>

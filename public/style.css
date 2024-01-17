@@ -136,50 +136,56 @@ body{
     width: 100%;
 }
 
-/* messages */
+/** messages */
 .container-all-msg{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     height: 74vh;
-}
-.container-all-msg2{
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-
-
-}
-.container-user-mgs{
-     display: flex;
-     flex-direction: column;
-     flex-wrap: wrap;
-     justify-content: center;
-     align-items: center;
-     width: auto;
+    flex-direction: column;
+    width: 100vw;
 }
 
 .container-chat-form{
     background-color: white;
+    width: 75%;
     height: 90%; 
     border-radius: 5px;
     display: flex;
     overflow-y: hidden;
     flex-direction: column;
+    padding: 10px;
 }
 .container-chat-msg{
     overflow-y: auto;
+    align-self: stretch;
     height: 90%;
     min-height: 0;
     display: flex;
     flex-direction: column-reverse;
-    background-color: blue;
-    /* justify-content: flex-end; */
 }
+.cont-btn-msg{
+    width: 25%;
+    height: 90%; 
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.img-receiver{
+    height: 35%;
+    width: 50%;
+    margin-bottom: 20px;
+    margin-top: -100px;
+    border-radius: 25px;
+}
+.image{
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+}
+
 .msg-receiver{
     align-self: start;
 }
@@ -194,6 +200,8 @@ body{
 .btn-msg{
     width: 250px;
     height: 70px;
+    padding: 5px;
+
 }
 #loadingOverlay{
     display: flex;
@@ -280,7 +288,6 @@ body{
     max-width: 400px; /* Atur lebar maksimum jika diperlukan */
     min-width: 250px; /* Atur lebar minimum jika diperlukan */
     padding: 20px; /* Tambahkan padding sesuai kebutuhan */
-    z-index: 99;
 }
 @media (max-width: 600px) {
     .fluid-login {
@@ -296,6 +303,23 @@ body{
     .msg-receiver{
         min-width: 100%;
     }
+    .container-all-msg{
+        flex-direction: column;
+    }
+    .cont-btn-msg{
+        height: 25%; 
+        width: 100%;
+    }
+    .container-chat-form{
+        border-radius: 5px;
+        width: 100%;
+        height: 75%; 
+    }
+    .img-receiver{
+    display: none; 
+   }
+    
+    
 }
 #container-notif{
     height: 50px;
