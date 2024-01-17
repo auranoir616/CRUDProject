@@ -41,7 +41,15 @@ body{
     justify-content: center;
     align-items: center;
     width: 100%;
+    min-height: 25%;
+    flex-direction: column;
+
 }
+/* .card-profile{
+    flex-direction: column;
+    background-color: blue;
+} */
+
 .container-viewpost{
     display: flex;
     flex-direction: column;
@@ -96,6 +104,8 @@ body{
     height: 10rem;
     overflow: hidden;
     background-color: rgb(241, 241, 241);
+    padding: 5px;
+    border-radius: 5px;
 }
 .readMore{
     margin-top: 10px;
@@ -151,26 +161,38 @@ body{
      justify-content: center;
      align-items: center;
      width: auto;
-     background-color: aqua;
 }
 
-.container-chat-msg{
+.container-chat-form{
     background-color: white;
     height: 90%; 
     border-radius: 5px;
     display: flex;
     overflow-y: hidden;
     flex-direction: column;
-    height: 100%;
 }
-.container-chat-msg2{
+.container-chat-msg{
     overflow-y: auto;
     height: 90%;
     min-height: 0;
     display: flex;
     flex-direction: column-reverse;
     /* justify-content: flex-end; */
-    
+}
+.msg-receiver{
+    align-self: start;
+}
+.msg-user{
+    align-self: flex-end;
+}
+.no-msg{
+    align-self: center;
+    font-size: 50px;
+    opacity: 50%;
+}
+.btn-msg{
+    width: 250px;
+    height: 70px;
 }
 #loadingOverlay{
     display: flex;
@@ -186,7 +208,8 @@ body{
 }
 .container-image-post-profile{
     width: 100%;
-    height: 100%;
+    height: 700px;
+    min-height: 25%;
 }
 
 .footer{
@@ -226,9 +249,6 @@ body{
     max-width: 100%;
     /* height: auto; */
 }
-.card-profile{
-    flex-direction: column;
-}
 .ImgProfile{
     border-radius: 25px;
     max-height: 75%;
@@ -263,7 +283,17 @@ body{
 }
 @media (max-width: 600px) {
     .fluid-login {
+
         width: 90%; /* Sesuaikan lebar untuk layar yang lebih kecil */
+    }
+    .container-image-post-profile{
+        height: 25%;
+    }
+     .msg-user{
+        min-width: 100%;
+    }
+    .msg-receiver{
+        min-width: 100%;
     }
 }
 #container-notif{

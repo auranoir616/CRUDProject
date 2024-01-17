@@ -48,7 +48,7 @@ class DataController extends Controller
                             ->orderBy('updated_at','desc')
                             ->get();
 
-        return view('message', compact('sender','receiver','messagesSender','userdata','datauser'));
+        return view('message', compact('sender','receiver','messagesSender','userdata','datauser','receiverName'));
     }
 
     public function sendMessages(Messages $msg, Request $request){

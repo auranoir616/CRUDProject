@@ -45,10 +45,10 @@
 @endif
 
 </div>
-    <div class="container card-profile">
+    <div class="container">
       @foreach ($postdata as $data)
 
-      <div class="card w-100 p-3" >
+      <div class="card w-100 p-3 " >
        <div class="container-image-post-profile">
         <img src="./data_file/{{$data['images']}}" width="100%" height="100%" alt="{{$data['images']}}">
        </div>

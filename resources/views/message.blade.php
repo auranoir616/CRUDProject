@@ -28,19 +28,25 @@
       </div>
           <div class="container-all-msg">
         <div class="w-100 p-3 container-all-msg2">
-            <div class="container-user-mgs w-25 p-3">
-                    <div class="ImgProfile">
+            {{-- <div class="container-user-mgs w-25 p-3"> --}}
+                    {{-- <div class="ImgProfile">
                         <img src="../data_file/{{$datauser->Images_profile}}" alt="" class="fluid">
-                    </div>
-                    <div>
-                        <a class="btn btn-secondary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                            {{$datauser->name}}
-                          </a>
-                    </div>
-                    </div>
+                    </div> --}}
+                    {{-- <div> --}}
+                      <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    
+                  @if($sender == $receiver)
+                  <h3>tap to start message</h3>
+                  @else
+                  {{$receiverName}}
+                  @endif
+                      </button>                           
+                       
+                    {{-- </div> --}}
+                    {{-- </div> --}}
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
-                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Users</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
@@ -60,11 +66,14 @@
 {{-- message --}}
         <?php
         ?>
-            <div class="container-chat-msg w-75 p-3">
-                <div class="container-chat-msg2 w-100 p-3">
+            <div class="container-chat-form w-100 p-3">
+                <div class="container-chat-msg w-100 p-3">
+                  @if($sender == $receiver) 
+                    <h1 class="no-msg">no messages</h1>
+                  @endif
                     @foreach($messagesSender as $msg)
                     @if($sender == $msg->user_id)
-                    <div class="alert alert-info msg" role="alert">
+                    <div class="alert alert-info msg w-25 p-3 msg-user" role="alert">
                         <figure class="text-end">
                             <blockquote class="blockquote">
                               <p> {{$msg->content}}</p>
@@ -75,7 +84,7 @@
                           </figure>
                       </div>
                       @else
-                      <div class="alert alert-danger" role="alert">
+                      <div class="alert alert-danger w-25 p-3 msg-receiver" role="alert">
                         <figure class="text-start">
                             <blockquote class="blockquote">
                               <p> {{$msg->content}}</p>
