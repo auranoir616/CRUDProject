@@ -49,20 +49,28 @@
       <div class="rowContainer">
         <?php
         $post = $data->id
-        // $like = likes::find($post);
         ?>
-        <form action="/likes/{{$post}}" method="POST">
+        {{-- <form action="/likes/{{$post}}" method="POST">
           @csrf
           <input type="text" value="{{$data->id}}" name="postId" hidden>
-          <button type="submit" class="btn btn-outline-dark position-relative">
-            {{ auth()->user()->Liked->contains($post) ? 'Unlike' : 'Like' }}
+          <button type="submit" class="btn btn-outline-dark position-relative" name="postId" value="{{$data->id}}" id="likebtn">
+            {{ auth()->user()->Liked->contains($post) ? 'liked' : 'Like' }}
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {{ $likesCount[$data->id] ?? 0 }}
               <span class="visually-hidden">Likes</span>
             </span>
           </button>
-        </form> 
-      </div>
+        </form>  --}}
+          {{-- {{ $likesCount[$data->id] ?? 0 }} --}}
+          <button type="submit" class="btn btn-primary position-relative" postId="{{$data->id}}" id="likebtn">
+            {{ auth()->user()->Liked->contains($post) ? 'unlike' : 'like' }}
+          </button>  
+          <span class="top-0 start-100 translate-middle badge rounded-pill bg-danger" id="likecount" postId="{{$data->id}}">
+            {{ $likesCount[$data->id] ?? 0 }}
+          </span>
+
+        </div>
+      {{-- !! --}}
      
     </ul>
     <div class="comment">
@@ -70,7 +78,7 @@
 
     @if ($comment->id_post == $data->id)
     <p class="commentText"><strong>{{ $comment->name }}:</strong> {{ $comment->body }}</p>
-@endif
+  @endif
   
    @endforeach
   </div>
@@ -102,19 +110,49 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-<script>
-    document.getElementById('loadingOverlay').style.display= 'block'
-    document.getElementById('content').style.display= 'none'
+<script >
+document.getElementById('loadingOverlay').style.display= 'block'
+document.getElementById('content').style.display= 'none'
+document.addEventListener('DOMContentLoaded', function(){
+document.getElementById('loadingOverlay').style.display= 'none'
+document.getElementById('content').style.display= 'block'
+})
 
-    // setTimeout(() => {
-    // document.getElementById('loadingOverlay').style.display= 'none'
-    // document.getElementById('content').style.display= 'block'
-
-    // }, 1000);
-
-    document.addEventListener('DOMContentLoaded', function(){
-    document.getElementById('loadingOverlay').style.display= 'none'
-    document.getElementById('content').style.display= 'block'
+//script untuk handle like
+document.addEventListener('DOMContentLoaded', function(){
+  let likebtn = document.querySelectorAll('#likebtn')
+    likebtn.forEach(function(button){
+      let postId = button.getAttribute('postId')
+      let likeStatus = localStorage.getItem(`likeStatus_${postId}`)
+      if(likeStatus === 'liked'){
+        likebtn.innerText = 'unlike'
+      }else{
+        likebtn.innerText = 'like'
+      }
+    button.addEventListener('click', function(){
+      let postId = this.getAttribute('postId')
+      let likests = this.innerText
+      fetch(`/likes/${postId}`,{
+        method:"post",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+        body: 'postId=' + postId //postId sebagai name dalam elemen input
+      })
+      .then(response => response.text())
+      .then(data =>{
+        if (likests === 'like') {
+                button.innerText = 'unlike';
+                localStorage.setItem(`likeStatus_${postId}`, 'liked');
+            } else {
+                button.innerText = 'like';
+                localStorage.setItem(`likeStatus_${postId}`, 'unliked');
+            }
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    })
   })
+})
+
 </script>
 </html>
