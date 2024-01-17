@@ -84,6 +84,7 @@ body{
     height: 40px;
     margin: 0;
     align-self: flex-end;
+    margin-top: 5px;
 }
 .colContainer{
     display: flex;
@@ -238,9 +239,37 @@ body{
 }
 .fluid{
     border-radius: 25px;
-
     max-height: 100%;
     max-width: 100%;
     min-height: 100%;
     min-width: 100%;
+}
+.content{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.fluid-form{
+    background-color: white;
+    border-radius: 25px;
+    width: 90%; /* Sesuaikan lebar sesuai kebutuhan */
+    max-width: 400px; /* Atur lebar maksimum jika diperlukan */
+    min-width: 250px; /* Atur lebar minimum jika diperlukan */
+    padding: 20px; /* Tambahkan padding sesuai kebutuhan */
+    z-index: 99;
+}
+@media (max-width: 600px) {
+    .fluid-login {
+        width: 90%; /* Sesuaikan lebar untuk layar yang lebih kecil */
+    }
+}
+#container-notif{
+    height: 50px;
+    width: 400px;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
 }

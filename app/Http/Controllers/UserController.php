@@ -61,7 +61,7 @@ class UserController extends Controller
             session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);
             return redirect('/myprofile')->with('success', 'berhasil login');;
         }else{
-            return redirect('/')->with('error','Username atau password salah');
+            return redirect()->back()->with('error','Username atau password salah');
         }
        
     }

@@ -11,8 +11,9 @@
 <body>
   <div>
     
-    <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded w-25 p-3 position-absolute top-50 start-50 translate-middle" >
+    <div class="content" >
 
+      <div class="fluid-form">
       <form action="/register" method="POST" enctype="multipart/form-data">
         @csrf
         <h2 class="title">register</h2>
@@ -50,11 +51,12 @@
         <input type="file" class="form-control" id="exampleFormControlInput1" name="registerImagesProfile">
       </div>
   
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Register</button>
     </form>
     <a href="/">login</a>
   
   </div>
+</div>
   </div>
  
 

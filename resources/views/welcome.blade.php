@@ -15,21 +15,25 @@
    @auth
 @include('_navbar')
         @else
-        <div>
-          <div onclick=disappsear() id="notif">
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+        <div class="content">
+
+          <div  id="container-notif">
+            <div onclick=disappsear() id="notif">
+              @if(session('success'))
+              <div class="alert alert-success">
+                  {{ session('success') }}
+              </div>
+            @endif
+            
+            @if(session('error'))
+              <div class="alert alert-danger">
+                  {{ session('error') }}
+              </div>
+            @endif
             </div>
-          @endif
-          
-          @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-          @endif
+           
           </div>
-          <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded w-25 p-3 position-absolute top-50 start-50 translate-middle" >
+          <div class=" fluid-form" >
       
             <form action="/login" method="POST">
               @csrf
@@ -43,7 +47,7 @@
               <label for="exampleInputPassword1" class="form-label">Password</label>
               <input type="password" class="form-control" id="exampleInputPassword1" name="inputPassword">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Login</button>
           </form>
           <a href="/registerPage">register</a>
         
