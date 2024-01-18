@@ -16,6 +16,13 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', function(){
+    return view('welcome');
+});
+Route::get('/loginpage', function(){
+    return view('loginpage');
+});
+
 Route::get('/listusers',[DataController::class, "listUsers"]);
 Route::get('/search',[DataController::class, 'search']);
 
@@ -29,7 +36,7 @@ Route::get('/messages/{datauser}',[DataController::class, 'messagesPage']);
 
 
 Route::post('/sendmsg',[DataController::class, 'sendMessages']);
-Route::get('/', [UserController::class, 'loginPage']);
+
 
 Route::get('/post', function () {
     if(auth()->check()){

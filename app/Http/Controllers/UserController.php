@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Session;
 class UserController extends Controller
 {
 
-    public function loginPage(){
-        return view('welcome');
-    }
     public function registerPage(){
         return view('register');
     }
@@ -81,6 +78,8 @@ class UserController extends Controller
         }
 
 public function editUser(User $datauser, Request $request){
+    if(auth()->check()){
+
     if(auth()->user()->id == $datauser['id']){
     // Validasi data dari formulir
     $data = $request->validate([
@@ -142,7 +141,12 @@ public function editUser(User $datauser, Request $request){
     }
     
 }
+}else{
+    return view('loginpage');
+}  
+
 }
+
  }
         
           

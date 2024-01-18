@@ -35,10 +35,11 @@ class PostController extends Controller
     }
     //mendapatkan semua data dari VIEW post dan menampilkannya secara descending 
     public function allPost(){
+        if(auth()->check()){
         try{
        $user = auth()->id();
         $postdata = DB::table('allpost')->whereNotNull('title')->orderBy('created_at', 'desc')->paginate(5);
-        $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
+        $comments = DB::table('userscomments')->orderBy('updated_at')->get();
          } catch (\Exception $e) {
             dd($e->getMessage());
          }
@@ -47,21 +48,30 @@ class PostController extends Controller
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
         return view('allpost',compact('postdata','comments','likesCount',));
-       
+        }else{
+            return view('loginpage');
+        }  
     }
     //oute untuk menampilkan form data edit
     public function editForm(Post $post){
+        if(auth()->check()){
+
         if(auth()->user()->id == $post['user_id']){
             return view('editPostForm',['post'=>$post]);
         }else{
             return redirect()->back()->with('error', 'gagal update data');
         }
-       
+    }else{
+        return view('loginpage');
+    }  
+
 
   
     }
     //route untuk post data editing 
     public function editPost(Post $post, Request $request){
+        if(auth()->check()){
+
         if(auth()->user()->id == $post['user_id']){
             $data = $request->validate([
                 'title'=> 'required',
@@ -86,6 +96,10 @@ class PostController extends Controller
             return redirect()->back()->with('error', 'gagal update data');
 
         }
+    }else{
+        return view('loginpage');
+    }  
+
       
 
     }
@@ -104,6 +118,8 @@ class PostController extends Controller
     //route untuk menampilkan tiap post ke page baru
     //menambahkan fitur share page
     public function viewPost(Post $post){
+        if(auth()->check()){
+
         $id = $post->id;
         $title = $post->title;
         $appUrl = url('/');
@@ -118,7 +134,11 @@ class PostController extends Controller
         ->reddit()
         ->getRawLinks();
         return view('viewpost',compact('sharepage','post'));
-    }
+    
+        }else{
+            return view('loginpage');
+        }  
+        }
     //controller komentar
     public function comment(Request $request){
         $data = $request->validate([
@@ -126,14 +146,14 @@ class PostController extends Controller
         ]);
         if($data){
                 $comment = new Comment;
-                $comment->id_post = $request->input('id_post'); 
+                $comment->id_post = $request->input('postId'); 
                 $comment->body = $request->input('body');
                 $comment->user_id = auth()->id();
                 $comment->save();
                 //agar tidak kembali ke page 1
             return redirect()->back(); 
         }else{
-            return redirect('allpost')->with('error', 'Anda tidak memiliki izin');
+            return view('allpost')->with('error', 'Anda tidak memiliki izin');
         }
     }
     

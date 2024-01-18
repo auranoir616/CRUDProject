@@ -14,6 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/register',
         '/createpost',
-        '/likes/*'
+        '/likes/*',
+        '/comment'
+
     ];
 }

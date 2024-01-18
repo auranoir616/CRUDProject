@@ -21,8 +21,13 @@ class DataController extends Controller
     }
     //menampilkan data user yang terdaftar
     public function profileData($username){
+        if(auth()->check()){
+
         $dataUser = DB::table('allpost')->where('username', $username)->get();
         return view('profileusers', ['dataUser' => $dataUser]);
+    }else{
+        return redirect('loginpage');
+    }  
 
     }
 
@@ -36,6 +41,8 @@ class DataController extends Controller
     }
 
     public function messagesPage(User $datauser){
+        if(auth()->check()){
+
         $sender = auth()->id();
         $receiver = $datauser->id;
         $receiverName = $datauser->name;
@@ -49,6 +56,10 @@ class DataController extends Controller
                             ->get();
 
         return view('message', compact('sender','receiver','messagesSender','userdata','datauser','receiverName'));
+    }else{
+        return redirect('loginpage');
+    }  
+
     }
 
     public function sendMessages(Messages $msg, Request $request){
@@ -91,7 +102,7 @@ class DataController extends Controller
                 $postIDs = $postdata->pluck('id');
                 $likes = Likes::whereIn('post_id', $postIDs)->get();
                 $likesCount = $likes->groupBy('post_id')->map->count();
-                $comments = DB::table('userscomments')->orderBy('updated_at','desc')->get();
+                $comments = DB::table('userscomments')->orderBy('updated_at')->get();
                 return view('profile', compact('postdata','likesCount','comments'));
             }else{
                 return redirect('/');

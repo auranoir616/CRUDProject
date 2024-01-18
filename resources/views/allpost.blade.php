@@ -45,7 +45,6 @@
       <li class="nav-item" style="margin-right: 10px">
         <p class="nav-link active" aria-current="page" >Comments</p>
       </li>
-
       <div class="rowContainer">
         <?php
         $post = $data->id
@@ -68,33 +67,24 @@
           <span class="top-0 start-100 translate-middle badge rounded-pill bg-danger" id="likecount" postId="{{$data->id}}">
             {{ $likesCount[$data->id] ?? 0 }}
           </span>
-
         </div>
-      {{-- !! --}}
-     
     </ul>
-    <div class="comment">
+                                                                          {{--*--}}
+
+    <div class="comment" postId="{{$data->id}}">
     @foreach ($comments as $comment)
-
     @if ($comment->id_post == $data->id)
-    <p class="commentText"><strong>{{ $comment->name }}:</strong> {{ $comment->body }}</p>
-  @endif
-  
-   @endforeach
-  </div>
-  {{--! form comments --}}
-   <div>
-    <form action="/comment" method="POST">
-      @csrf
-      <input type="hidden" name="id_post" value="{{ $data->id }}">
-      <div class="input-group mb-3">
-          <input type="text" name="body" class="form-control" placeholder="Your comment" aria-label="Your comment" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
-      </div>
-    </form>
-   </div>
-    {{--! form comments --}}
+    <div>
+      <p class="commentText"><strong>{{ $comment->name }}:</strong>  {{ $comment->body }}</p>
+    </div>
+      @endif
+      @endforeach
 
+  </div>
+  <div class="input-group mb-3">
+  <input type="text" name="bodytes" class="form-control inputkomen" placeholder="Your comment" aria-label="Your comment" aria-describedby="button-addon2" id="" postId="{{$data->id}}" >
+  <button class="btn btn-outline-secondary buttonkomen" type="submit" id="" postId="{{$data->id}}" username="{{$data->name}}">Comment</button>
+  </div>
   </div>
 </div>
 </div>
@@ -113,12 +103,12 @@
 <script >
 document.getElementById('loadingOverlay').style.display= 'block'
 document.getElementById('content').style.display= 'none'
-document.addEventListener('DOMContentLoaded', function(){
-document.getElementById('loadingOverlay').style.display= 'none'
-document.getElementById('content').style.display= 'block'
-})
+setTimeout(() => {
+    document.getElementById('loadingOverlay').style.display= 'none'
+    document.getElementById('content').style.display= 'block'
 
-//script untuk handle like
+    }, 1000);
+//script untuk handle like tanpa reload
 document.addEventListener('DOMContentLoaded', function(){
   let likebtn = document.querySelectorAll('#likebtn')
     likebtn.forEach(function(button){
@@ -153,6 +143,39 @@ document.addEventListener('DOMContentLoaded', function(){
     })
   })
 })
+// menampilkan komentar tanpa reload halaman
+  document.addEventListener('DOMContentLoaded', function () {
+        var buttons = document.getElementsByClassName('buttonkomen');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function () {
+                var postId = this.getAttribute('postId');
+                var username = this.getAttribute('username');
+                var inputElement = document.querySelector('.inputkomen[postId="' + postId + '"]');
+                var commentcont = document.querySelector('.comment[postId="' + postId + '"]');
+            // Menggunakan createElement untuk membuat elemen div baru dan menambahkan commentText ke dalamnya
+              var commentelem = document.createElement('div');
+              commentelem.style.height = '19.5px';
+              commentelem.innerHTML += '<p class="commentText">'+'<strong>' + username + ':</strong> ' + inputElement.value + '</p>';
+           // Menambahkan elemen div baru ke dalam commentcont
+              commentcont.appendChild(commentelem);
+              fetch('/comment',{
+                method:"POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+                body: 'postId=' + postId +
+                       '&body=' + inputElement.value
+              })
+              .then(response => response.text())
+              .then(data =>{
+                console.log(data)
+              })
+              .catch(err =>{
+                console.log(err)
+              })
+              inputElement.value = ''; // Membersihkan input field
+          });
+        }
+    });
+
 
 </script>
 </html>
