@@ -20,7 +20,11 @@ Route::get('/', function(){
     return view('welcome');
 });
 Route::get('/loginpage', function(){
+    if(auth()->check()){
+        return view('profile');
+    }else{
     return view('loginpage');
+    }
 });
 
 Route::get('/listusers',[DataController::class, "listUsers"]);
