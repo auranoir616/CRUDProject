@@ -143,11 +143,10 @@ body{
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
 }
 
 .container-chat-form{
-    background-color: white;
     width: 75%;
     height: 90%; 
     border-radius: 5px;
@@ -155,6 +154,7 @@ body{
     overflow-y: hidden;
     flex-direction: column;
     padding: 10px;
+    background-color: white;
 }
 .container-chat-msg{
     overflow-y: auto;
@@ -199,7 +199,7 @@ body{
     opacity: 50%;
 }
 .btn-msg{
-    width: 250px;
+    width: 50%;
     height: 70px;
     padding: 5px;
 
