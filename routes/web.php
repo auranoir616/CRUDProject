@@ -21,7 +21,7 @@ Route::get('/', function(){
 });
 Route::get('/loginpage', function(){
     if(auth()->check()){
-        return view('profile');
+        return redirect('/myprofile');
     }else{
     return view('loginpage');
     }
