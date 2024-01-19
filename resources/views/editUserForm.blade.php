@@ -40,8 +40,8 @@
             <input type="text" class="form-control" name="editUsername" value="{{$datauser->username}}">
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="editPassword" value="{{$datauser->password}}" >
+            <label for="exampleInputPassword1" class="form-label" hidden >Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="editPassword" value="{{$datauser->password}}" hidden>
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">images</label>

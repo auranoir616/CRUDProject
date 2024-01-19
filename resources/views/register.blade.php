@@ -53,7 +53,9 @@
   
       <button type="submit" class="btn btn-primary">Register</button>
     </form>
-    <a href="/">login</a>
+    <a href="/loginpage">login</a>
+    <a href="/">Back</a>  
+
   
   </div>
 </div>

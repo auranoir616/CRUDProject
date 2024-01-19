@@ -59,10 +59,7 @@
                 </div>
               </div>
             </div>
-
 {{-- message --}}
-        <?php
-        ?>
             <div class="container-chat-form">
                 <div class="container-chat-msg">
                   @if($sender == $receiver) 
@@ -87,59 +84,51 @@
                               <p> {{$msg->content}}</p>
                             </blockquote>
                             <figcaption class="blockquote-footer">
-                              send <cite title="Source Title">{{$msg->created_at}}</cite>
+                            send <cite title="Source Title">{{$msg->created_at}}</cite>
                             </figcaption>
                           </figure>
                         </div>
                         @endif
                       @endforeach
                 </div>
-                <div class="container-form">
-                    <form action="/sendmsg" method="POST" id="sendMessageForm">
-                        {{-- <form id="sendMessageForm"> --}}
-
-                        @csrf
-                        <input type="text" name="reciever" value=" {{$receiver}}" hidden>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="messages"  aria-describedby="button-addon2" name="content" @if($sender == $receiver) hidden @endif>
-                            <button class="btn btn-outline-primary" type="submit" id="button-addon2" @if($sender == $receiver) hidden @endif >Send</button>
-                          </div>
-                    </form>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="messages"  aria-describedby="button-addon2" id="inputmsg" name="content" @if($sender == $receiver) hidden @endif>
+                  <button class="btn btn-outline-primary" reciever="{{$receiver}}" type="submit" id="button-addon2" @if($sender == $receiver) hidden @endif >Send</button>
                 </div>
             </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    
-    {{-- <script>
-        function sendMessage() {
-            // Ambil data formulir
-            var formData = new FormData(document.getElementById('sendMessageForm'));
-            // Buat objek XMLHttpRequest
-            var xhr = new XMLHttpRequest();
-            // Konfigurasi permintaan
-            xhr.open('POST', '/sendmsg', true);
-            xhr.setRequestHeader('X-CSRF-Token', document.querySelector('meta[name="csrf-token"]').content);
-            // Tangkap perubahan status permintaan
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        // Handle respon dari server (misalnya, perbarui tampilan atau tambahkan pesan)
-                        console.log(xhr.responseText);
-    
-                        // Contoh: tampilkan pesan di dalam elemen dengan ID "messageContainer"
-                        document.getElementById('messageContainer').innerHTML = 'Pesan terkirim!';
-                    } else {
-                        // Handle kesalahan
-                        console.error(xhr.statusText);
-                    }
-                }
-            };
-    
-            // Kirim data ke server
-            xhr.send(formData);
-        }
-    </script> --}}
+    <script>
+      document.addEventListener('DOMContentLoaded',function(){
+        let sendbtn = document.getElementById('button-addon2')
+        let msgcontainer = document.getElementsByClassName('container-chat-msg')[0]
+          sendbtn.addEventListener('click',function(){
+            let recieverId = this.getAttribute('reciever')
+            let msgtext = document.getElementById('inputmsg')
+            let msg = document.createElement('div')
+            msg.className = 'alert alert-info msg w-25 p-3 msg-user'
+            msg.role = 'alert'
+            msg.innerHTML = '<figure class="text-end">' + '<blockquote class="blockquote">' +'<p>'+msgtext.value+'</p>' + '</blockquote>' + '<figcaption class="blockquote-footer">' +
+                              'send'+'<cite title="Source Title">'+'</cite>'+'</figcaption>'+'</figure>'
+            msgcontainer.insertBefore(msg, msgcontainer.firstChild);
+            fetch('/sendmsg',{
+              method:"POST",
+              headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+              body: 'content=' + msgtext.value +
+                       '&reciever=' + recieverId
+            })
+            .then(response => response.text())
+            .then(data =>{
+              console.log(data);
+            })
+            .catch( err =>{
+              console.log(err)
+            })
+            msgtext.value = ''
+          })
+      })
+    </script>
     
 </body>
 </html>
