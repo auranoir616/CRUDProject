@@ -9,6 +9,19 @@
     <title>Document</title>
 </head>
 <body>
+  <div onclick=disappear() id="notif">
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+  @endif
+  
+  @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+  @endif
+  </div>
     <div class="content">
         <div class="container">
             <div class="card text-center">
@@ -19,7 +32,7 @@
                   <h5 class="card-title">Welcome to fishbook</h5>
                   <p class="card-text">
                     This is just a website similar to social media which is still under development, <br>
-                    if you want to try it you can register with fake data <br>
+                    if you want to try it, you can register with fake data <br>
                     Thank You...
                   </p>
                   <a href="/loginpage" class="btn btn-primary">login</a>
@@ -36,6 +49,14 @@
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script>
+  const notif = document.getElementById('notif')
+ notif.style.display = 'block'
+ const time = 3000
+ setTimeout(() => {
+   notif.style.display = 'none'
+ }, time);
+</script>
 
 </body>
 </html>

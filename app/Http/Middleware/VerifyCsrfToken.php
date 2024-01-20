@@ -16,7 +16,8 @@ class VerifyCsrfToken extends Middleware
         '/createpost',
         '/likes/*',
         '/comment',
-        '/sendmsg'
+        '/sendmsg',
+        '/follow/*'
 
     ];
 }

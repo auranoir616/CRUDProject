@@ -13,7 +13,7 @@
     
     <div class="content" >
 
-      <div class="fluid-form">
+      <div class="fluid-form w-50 p-3">
       <form action="/register" method="POST" enctype="multipart/form-data">
         @csrf
         <h2 class="title">register</h2>
@@ -30,7 +30,7 @@
           </div>
         @endif
         </div>
-        <div class="mb-3 ">
+        <div class=" mb-3 ">
           <label for="exampleInputEmail1" class="form-label">Name</label>
           <input type="text" class="form-control" name="registerName">
         </div>
@@ -50,10 +50,11 @@
         <label for="exampleFormControlInput1" class="form-label">images</label>
         <input type="file" class="form-control" id="exampleFormControlInput1" name="registerImagesProfile">
       </div>
-  
-      <button type="submit" class="btn btn-primary">Register</button>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
     </form>
-    <a href="/loginpage">login</a>
+    <p>have an account? <a href="/loginpage">login</a></p><br>
     <a href="/">Back</a>  
 
   

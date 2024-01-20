@@ -29,7 +29,7 @@ Route::get('/loginpage', function(){
 
 Route::get('/listusers',[DataController::class, "listUsers"]);
 Route::get('/search',[DataController::class, 'search']);
-
+Route::post('/follow/{user_id}',[DataController::class, 'follow']);
 Route::get('/profile/{username}',[DataController::class, 'profileData']);
 Route::get('/messages/{datauser}',[DataController::class, 'messagesPage']);
 // Route::get('/messages/{datauser}', function(User $datauser){

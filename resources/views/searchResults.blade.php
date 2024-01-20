@@ -10,14 +10,15 @@
 </head>
 <body>
     @include('_navbar')
-    <div>
-        <h2>Hasil pencarian</h2>
-        <hr>
+      <h2 style="text-align: center">Hasil pencarian</h2>
+      <hr>
         @if ($results->isEmpty())
             <h2>tidak ada hasil</h2>
         @else
-        
+        <div>
             @foreach($results as $result)
+            
+            <div class="w-75 p-3 container">          
             <div class="row g-0 position-relative postCont ">
                 <div class="col-md-6 mb-md-0 p-md-4">
                   <img src="./data_file/{{$result->images}}" class="w-100 images" alt="{{$result->images}}">
@@ -36,10 +37,11 @@
           
               </div>
               </div>
+            </div>
+         
             @endforeach
-        
+          </div>
             @endif
-        </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 

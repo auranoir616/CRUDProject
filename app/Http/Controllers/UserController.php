@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Session;
+
 class UserController extends Controller
 {
 
@@ -15,14 +17,13 @@ class UserController extends Controller
 
     public function register(Request $request){
         $data = $request->validate([
-
             'registerName' => ['required'],
             'registerUsername' =>['required','min:4','max:12',Rule::unique('users','username')],
             'registerEmail' =>['required','email',Rule::unique('users','email')],
             'registerPassword' => ['required'],
             'registerImagesProfile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
-
         ]);
+        
         $data['registerPassword'] = bcrypt($data['registerPassword']);
         $file = $request->file('registerImagesProfile');
         if($request->hasFile('registerImagesProfile') && $file->isValid() && in_array($file->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif','webp'])){
@@ -38,7 +39,13 @@ class UserController extends Controller
                     'password'=>$request->registerPassword,
                     'Images_profile'=> $nama_file
                 ]);
-               return redirect('/')->with('success', 'berhasil register');
+                //untuk menambahkan data pada tabel follower agar bisa melihat post sendiri
+                $follow = new Follow;
+                $follow->user_id = $user->id;
+                $follow->following_user =$user->id;
+                $follow->save();
+    
+               return redirect('/loginpage')->with('success', 'berhasil register, silahkan login..');
             }else {
                 return redirect('/')->with('error', 'gagal register');
             }
@@ -55,8 +62,8 @@ class UserController extends Controller
             // Mengambil objek user yang sedang diotentikasi
             $user = auth()->user();
             // Menyimpan username ke dalam session untuk digunakan di halaman /post
-            session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);
-            return redirect('/myprofile')->with('success', 'berhasil login');;
+            session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);    
+            return redirect('/myprofile')->with('success', 'berhasil login');
         }else{
             return redirect()->back()->with('error','Username atau password salah');
         }
@@ -66,14 +73,12 @@ class UserController extends Controller
     public function logOut(){
         auth()->logout();
         return redirect('/')->with('success', 'berhasil logout');
-            
-        }
-
-        public function editUserForm(User $datauser){
+            }
+    
+    public function editUserForm(User $datauser){
             if(!auth()->user()->id ){
                 return redirect('/');
             }
-            // dd($user);
             return view('editUserForm',['datauser'=>$datauser]);
         }
 

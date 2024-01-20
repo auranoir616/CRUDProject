@@ -6,6 +6,7 @@ use Share;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Likes;
+use App\Models\Follow;
 use App\Models\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,6 @@ class DataController extends Controller
     //menampilkan data user yang terdaftar
     public function profileData($username){
         if(auth()->check()){
-
         $dataUser = DB::table('allpost')->where('username', $username)->get();
         return view('profileusers', ['dataUser' => $dataUser]);
     }else{
@@ -88,7 +88,6 @@ class DataController extends Controller
     public function listUsers(){
         $user = auth()->id(); //menampilkan data user kecuali yang sedang login
         $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
-
         return view('listusers',compact('allusers'));
     }
 
@@ -109,5 +108,23 @@ class DataController extends Controller
         
             }
         
+    }
+    public function follow(Request $request){
+        $user = auth()->user();
+        $following = $request->input('following_user_id');
+        $followed = Follow::where('user_id', $user->id)
+        ->where('following_user', $following)
+        ->first();
+        if ($followed) {
+        // Jika sudah ada like, hapus like tersebut
+        $followed->delete();
+        } else {
+        // Jika belum ada like, tambahkan like baru
+        $follow = new Follow;
+        $follow->user_id = $user->id;
+        $follow->following_user = $following;
+        $follow->save();
+        }
+        return redirect()->back();
     }
 }

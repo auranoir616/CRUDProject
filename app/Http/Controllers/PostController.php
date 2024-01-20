@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Share;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Likes;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Notifications\deleteNotif;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use Share;
+
 class PostController extends Controller
 {
     public function createPost(Request $request){
@@ -37,13 +39,22 @@ class PostController extends Controller
     public function allPost(){
         if(auth()->check()){
         try{
-       $user = auth()->id();
-        $postdata = DB::table('allpost')->whereNotNull('title')->orderBy('created_at', 'desc')->paginate(5);
+        $userId = auth()->user()->id;
+        $user = User::find($userId);
+        $postdata = Post::join('follower',function($join) use ($userId){
+             $join->on('post.user_id', '=', 'follower.following_user');
+                // ->orOn('post.user_id','=','follower.following_user');
+            })
+                ->join('users','post.user_id','=','users.id')
+                ->where('follower.user_id', $userId)
+                ->select('post.*','users.name')
+                ->whereNotNull('title')
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
         $comments = DB::table('userscomments')->orderBy('updated_at')->get();
          } catch (\Exception $e) {
             dd($e->getMessage());
          }
-
         $postIDs = $postdata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();

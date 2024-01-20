@@ -9,9 +9,9 @@ class Comment extends Model
 {
     use HasFactory;
     protected $table = 'comment';
-    protected $fillable = ['post_id,body,user_id'];
-
+    protected $fillable = ['id_post,body,user_id'];
+    //setiap komentar milik table Post dengan kunci 'post_id'
     public function UsersComment2(){
-        return $this->belongsTo(Post::class, 'post_id');
+        return $this->belongsTo(Post::class, 'id_post', 'id');
     }
 }

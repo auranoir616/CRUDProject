@@ -26,6 +26,12 @@
     <article class="w-100 p-3 items-home">
     <div class="container">
       <div>
+        @if($postdata->isEmpty())
+        <div class="container">
+          <h1>Belum ada postingan</h1>
+        </div>
+        @else
+      
     @foreach ($postdata as $data)
 <div class="row g-0 position-relative postCont">
   <div class="col-md-6 mb-md-0 p-md-4">
@@ -49,18 +55,6 @@
         <?php
         $post = $data->id
         ?>
-        {{-- <form action="/likes/{{$post}}" method="POST">
-          @csrf
-          <input type="text" value="{{$data->id}}" name="postId" hidden>
-          <button type="submit" class="btn btn-outline-dark position-relative" name="postId" value="{{$data->id}}" id="likebtn">
-            {{ auth()->user()->Liked->contains($post) ? 'liked' : 'Like' }}
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{ $likesCount[$data->id] ?? 0 }}
-              <span class="visually-hidden">Likes</span>
-            </span>
-          </button>
-        </form>  --}}
-          {{-- {{ $likesCount[$data->id] ?? 0 }} --}}
           <button type="submit" class="btn btn-primary position-relative" postId="{{$data->id}}" id="likebtn">
             {{ auth()->user()->Liked->contains($post) ? 'unlike' : 'like' }}
           </button>  
@@ -91,6 +85,7 @@
 <hr>
 
 @endforeach
+@endif
     </div>
   </div>
 </article>

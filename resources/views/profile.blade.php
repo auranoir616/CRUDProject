@@ -24,11 +24,8 @@
   
   ?>
 <div id="content">
-
-
     <div>
       @include('_navbar')
-
     </div>
     @include('_header')
 <div onclick=disappear() id="notif">
@@ -43,12 +40,16 @@
       {{ session('error') }}
   </div>
 @endif
-
 </div>
+  @if($postdata->isEmpty())
+  <div class="container">
+    <h1>Belum ada postingan</h1>
+  </div>
+  @else
     <div class="container">
       @foreach ($postdata as $data)
 
-      <div class="card w-100 p-3 " >
+      <div class="card w-75 p-3 " >
        <div class="container-image-post-profile">
         <img src="./data_file/{{$data['images']}}" width="100%" height="100%" alt="{{$data['images']}}">
        </div>
@@ -107,24 +108,12 @@
               <button class="btn btn-outline-secondary buttonkomen" type="submit" id="" postId="{{$data->id}}" username="{{$name}}">Comment</button>
               </div>
             
-                              {{--! form comments --}}
-                {{-- <div style="margin-top: 10px; margin-bottom:-25px" style="display: none">
-                  <form action="/comment" method="POST">
-                    @csrf
-                    <input type="hidden" name="postId" value="{{ $data->id }}">
-                    <div class="input-group mb-3">
-                        <input type="text" name="body" class="form-control" placeholder="Your comment" aria-label="Your comment" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
-                    </div>
-                  </form>
-                </div> --}}
-                  {{--! form comments --}}
-           
           </div>
         </div>
       </div>
       </div>
         @endforeach
+        @endif
 
     
     </div>

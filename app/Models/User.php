@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Post;
 use App\Models\Likes;
+use App\Models\Follow;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,13 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $table = 'users';
-    protected $fillable = [
-        'name',
-        'username',
-        'email',
-        'password',
-        'Images_profile'
-    ];
+    protected $fillable = ['name','username','email','password','Images_profile'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,6 +50,19 @@ class User extends Authenticatable
     public function Liked(){
         return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
     }    
+
+    public function followedUser() {
+    return $this->belongsToMany(User::class, 'follower', 'user_id', 'following_user');
+    }
+    // Di dalam model User
+    //param 1 tabel yang akan diakses
+    //parem 2 tabel perantara antara users dan post
+    //param 3 
+    public function followedPosts() {
+        return $this->hasManyThrough(Post::class, Follow::class, 'user_id', 'user_id', 'id', 'following_user');
+    }
+    
+
 }
 
 

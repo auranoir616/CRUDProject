@@ -51,8 +51,6 @@
           </form>
           <a href="/registerPage">register</a>            
           <a href="/">Back</a>  
-
-        
         </div>
         </div>
    
