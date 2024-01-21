@@ -19,7 +19,11 @@ class PostController extends Controller
             'title' => 'required',
             'body' => 'required',
             'images' => 'required|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ]);
+        ],[
+            'title.required' => 'title must be filled',
+            'body.required' => 'body must be filled',
+            'images.required' => 'images must be filled'
+            ]);
         $file = $request->file('images');
         $nama_file = time()."_".$file->getClientOriginalName();
         $folder_upload = 'data_file';
@@ -41,24 +45,35 @@ class PostController extends Controller
         try{
         $userId = auth()->user()->id;
         $user = User::find($userId);
+        //join untuk menampilkan data dari user yang difollow
         $postdata = Post::join('follower',function($join) use ($userId){
              $join->on('post.user_id', '=', 'follower.following_user');
-                // ->orOn('post.user_id','=','follower.following_user');
             })
                 ->join('users','post.user_id','=','users.id')
                 ->where('follower.user_id', $userId)
-                ->select('post.*','users.name')
+                ->select('post.*','users.name','users.Images_profile','users.username')
                 ->whereNotNull('title')
-                ->orderBy('created_at', 'desc')
+                ->inRandomOrder()
                 ->paginate(5);
+        //untuk menampilkan komentar
         $comments = DB::table('userscomments')->orderBy('updated_at')->get();
          } catch (\Exception $e) {
             dd($e->getMessage());
          }
+         //mendapatkan data kolom following_user dalam bentuk array
+        $followingUserId = DB::table('follower')->where('user_id',$userId)->pluck('following_user')->toArray();
+        //menapatkan data dari table follower yang belum difollow dengan membandingkan dengan $followingUserId
+        $sugestedUsers = DB::table('users')
+        ->whereNotIn('id',$followingUserId)
+        ->where('id','<>',$userId)
+        ->inRandomOrder()
+        ->take(3)
+        ->get();
+        //mendapatkan data array dari hasil join $postdata untuk mencari jumlah likesnya
         $postIDs = $postdata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
-        return view('allpost',compact('postdata','comments','likesCount',));
+        return view('allpost',compact('postdata','comments','likesCount','sugestedUsers'));
         }else{
             return view('loginpage');
         }  
@@ -75,14 +90,10 @@ class PostController extends Controller
     }else{
         return view('loginpage');
     }  
-
-
-  
     }
     //route untuk post data editing 
     public function editPost(Post $post, Request $request){
         if(auth()->check()){
-
         if(auth()->user()->id == $post['user_id']){
             $data = $request->validate([
                 'title'=> 'required',

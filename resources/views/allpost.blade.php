@@ -16,14 +16,16 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-  
 </div>
   <div id="content">
-    @include('_navbar')
+@include('_navbar')
 @include('_header')
 
     <div class="containerHome">
-    <article class="w-100 p-3 items-home">
+      <aside >
+        @include('_aside')
+      </aside>
+    <article>
     <div class="container">
       <div>
         @if($postdata->isEmpty())
@@ -102,7 +104,7 @@ setTimeout(() => {
     document.getElementById('loadingOverlay').style.display= 'none'
     document.getElementById('content').style.display= 'block'
 
-    }, 1000);
+    }, 1500);
 //script untuk handle like tanpa reload
 document.addEventListener('DOMContentLoaded', function(){
   let likebtn = document.querySelectorAll('#likebtn')
@@ -170,6 +172,31 @@ document.addEventListener('DOMContentLoaded', function(){
           });
         }
     });
+    //handle tombol follow
+    let btnfollow = document.querySelectorAll('.btnFollow')
+  btnfollow.forEach(function(btn){
+    btn.addEventListener('click', function(){
+        let user_id = this.getAttribute('following_user_id')
+        console.log('user',user_id)
+        fetch(`/follow/${user_id}`,{
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+            body: 'following_user_id=' + user_id
+        })
+        .then(response => response.text())
+        .then(data =>{
+            console.log(data)
+            if(btn.innerText === 'Unfollow'){
+                btn.innerText = 'Follow'
+            }else{
+                btn.innerText = 'Unfollow'
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    })
+  })
 
 
 </script>

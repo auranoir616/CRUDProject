@@ -12,25 +12,41 @@
   <?php 
   $name = session('name');	
   ?>
-@include('_navbar')
+  @include('_navbar')
 <div class="content">
-
-
-<div id="notif">
-  @if(session('success'))
-  <div class="alert alert-success">
-      {{ session('success') }}
-  </div>
-@endif
-@if(session('error'))
-  <div class="alert alert-danger">
-      {{ session('error') }}
-  </div>
-@endif
+  <div  id="container-notif">
+    <div onclick=disappsear() id="notif">
+      {{-- menampilkan error dari session --}}
+      @if(session('success'))
+      <div class="alert alert-success">
+        <b> {{ session('success') }}</b>
+      </div>
+    @endif
+    
+    @if(session('error'))
+      <div class="alert alert-danger">
+        <b > {{ session('error') }}</b>
+      </div>
+    @endif
+      {{-- menampilkan error dari validasi  --}}
+        @if ($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+            @foreach ($errors->all() as $error)
+            <li><b>{{ $error }}</b></li>
+            @endforeach
+      </ul>
+    </div>
+       @endif
 </div>
+</div>
+
   @auth
+
   <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded fluid-form" >
     {{--! tambahkan  enctype="multipart/form-data" jika ada upload file--}}
+    <h1 style="text-align: center">Create a Post</h1>
+    <hr>
       <form action="/createpost" method="POST" enctype="multipart/form-data"> 
           @csrf
   <div class="mb-3">

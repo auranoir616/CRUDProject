@@ -16,23 +16,32 @@
 @include('_navbar')
         @else
         <div class="content">
-
           <div  id="container-notif">
             <div onclick=disappsear() id="notif">
+              {{-- menampilkan error dari session --}}
               @if(session('success'))
               <div class="alert alert-success">
-                  {{ session('success') }}
+                <b> {{ session('success') }}</b>
               </div>
             @endif
             
             @if(session('error'))
               <div class="alert alert-danger">
-                  {{ session('error') }}
+                <b > {{ session('error') }}</b>
               </div>
             @endif
+              {{-- menampilkan error dari validasi  --}}
+                @if ($errors->any())
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li><b>{{ $error }}</b></li>
+                @endforeach
+          </ul>
             </div>
-           
-          </div>
+               @endif
+      </div>
+      </div>
           <div class=" fluid-form" >
       
             <form action="/login" method="POST">
@@ -41,16 +50,17 @@
            <div class="mb-3 ">
             <h2 class="title">login</h2>
               <label for="exampleInputEmail1" class="form-label">Username</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="inputUsername">
+              <input type="text" class="form-control" id="InputUsername" aria-describedby="emailHelp" name="inputUsername">
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" name="inputPassword">
+              <input type="password" class="form-control" id="InputPassword" name="inputPassword" >
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary" id="buttonlogin">Login</button>
           </form>
           <a href="/registerPage">register</a>            
           <a href="/">Back</a>  
+
         </div>
         </div>
    
@@ -65,6 +75,20 @@
  setTimeout(() => {
    notif.style.display = 'none'
  }, time);
+
+    // let btn = document.getElementById('buttonlogin')
+    // let userinput = document.getElementById('InputUsername')
+    // let inputpassword = document.getElementById('InputPassword')
+    // let alert = document.getElementById('alertwarning')
+    // alert.style.display = 'none'
+    // btn.addEventListener('click',function(){
+    //   if(!userinput.value || !inputpassword.value){
+    //     alert.style.display = 'block'
+    //   } else {
+    //     alert.style.display = 'none'
+    //   }
+
+    // })
 </script>
 
 </html>

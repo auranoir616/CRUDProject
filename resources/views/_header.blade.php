@@ -1,7 +1,6 @@
 <?php 
 $user = auth()->user()
 ?>
-
 <header id="row1">
 <div class="container-data-header">
   <div class="img-fluid">

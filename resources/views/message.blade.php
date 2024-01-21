@@ -107,6 +107,7 @@
             let recieverId = this.getAttribute('reciever')
             let msgtext = document.getElementById('inputmsg')
             let msg = document.createElement('div')
+            if(msgtext.value){
             msg.className = 'alert alert-info msg w-25 p-3 msg-user'
             msg.role = 'alert'
             msg.innerHTML = '<figure class="text-end">' + '<blockquote class="blockquote">' +'<p>'+msgtext.value+'</p>' + '</blockquote>' + '<figcaption class="blockquote-footer">' +
@@ -126,7 +127,9 @@
               console.log(err)
             })
             msgtext.value = ''
+          }
           })
+        
       })
     </script>
     

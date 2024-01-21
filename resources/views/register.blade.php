@@ -12,6 +12,32 @@
   <div>
     
     <div class="content" >
+      <div  id="container-notif">
+        <div onclick=disappsear() id="notif">
+          {{-- menampilkan error dari session --}}
+          @if(session('success'))
+          <div class="alert alert-success">
+             <b> {{ session('success') }}</b>
+          </div>
+        @endif
+        
+        @if(session('error'))
+          <div class="alert alert-danger">
+            <b>{{ session('error') }}</b>
+          </div>
+        @endif
+          {{-- menampilkan error dari validasi  --}}
+            @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li><b>{{ $error }}</b></li>
+            @endforeach
+      </ul>
+        </div>
+           @endif
+  </div>
+  </div>
 
       <div class="fluid-form w-50 p-3">
       <form action="/register" method="POST" enctype="multipart/form-data">

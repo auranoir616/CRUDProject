@@ -14,5 +14,9 @@ class Follow extends Model
     public function postfollowingUser(){
         return $this->belongsTo(Post::class,'following_user', 'user_id');
     }
+    public function followingUser(){
+        return $this->belongsTo(User::class,'following_user', 'id');
+    }
+
     
 }

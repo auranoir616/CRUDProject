@@ -21,7 +21,13 @@ class UserController extends Controller
             'registerUsername' =>['required','min:4','max:12',Rule::unique('users','username')],
             'registerEmail' =>['required','email',Rule::unique('users','email')],
             'registerPassword' => ['required'],
-            'registerImagesProfile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+            'registerImagesProfile' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ],[
+            'registerName.required' =>'>Name must be filled ',
+            'registerUsername.required' =>'>Usename must be filled ',
+            'registerEmail.required' =>'>email must be filled ',
+            'registerPassword.required' =>'>password must be filled ',
+            'registerImagesProfile.required' =>'>images must be filled '
         ]);
         
         $data['registerPassword'] = bcrypt($data['registerPassword']);
@@ -45,9 +51,9 @@ class UserController extends Controller
                 $follow->following_user =$user->id;
                 $follow->save();
     
-               return redirect('/loginpage')->with('success', 'berhasil register, silahkan login..');
+               return redirect('/loginpage')->with('success', 'registration success, please login...');
             }else {
-                return redirect('/')->with('error', 'gagal register');
+                return redirect('/')->with('error', 'registration failed');
             }
         }
        
@@ -56,6 +62,9 @@ class UserController extends Controller
         $data = $request->validate([
             'inputUsername' =>'required',
             'inputPassword' =>'required',
+        ], [
+            'inputUsername.required' => 'Username must be filled',
+            'inputPassword.required' => 'Password must be filled',
         ]);
         if(auth()->attempt(['username' => $data['inputUsername'], 'password' => $data['inputPassword']])){
             $request->session()->regenerate();
@@ -65,14 +74,14 @@ class UserController extends Controller
             session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);    
             return redirect('/myprofile')->with('success', 'berhasil login');
         }else{
-            return redirect()->back()->with('error','Username atau password salah');
+            return redirect()->back()->with('error','Username or password is Incorrect');
         }
        
     }
 
     public function logOut(){
         auth()->logout();
-        return redirect('/')->with('success', 'berhasil logout');
+        return redirect('/')->with('success', 'Logout Success');
             }
     
     public function editUserForm(User $datauser){
@@ -114,15 +123,15 @@ public function editUser(User $datauser, Request $request){
             ];
             //validasi format gambar
             if(!$file->isValid() && !in_array($file->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif','webp'])){
-                return redirect()->back()->with('error', 'Gagal update data');
+                return redirect()->back()->with('error', 'update data failed');
             }
             // Update data pengguna
             $datauser->update($newdata);
             if ($datauser->update($newdata)) {
                 // dd($datauser->update($newdata));
-                return redirect('myprofile')->with('success', 'Berhasil mengupdate data user');
+                return redirect('myprofile')->with('success', 'update data success');
             } else {
-                return redirect()->back()->with('error', 'Gagal update data');
+                return redirect()->back()->with('error', 'update data failed');
             }
         } 
         //jika tidak upload ulang gambar
@@ -139,9 +148,9 @@ public function editUser(User $datauser, Request $request){
         $datauser->update($newdata);
         if ($datauser->update($newdata)) {
             // dd($datauser->update($newdata));
-            return redirect('myprofile')->with('success', 'Berhasil mengupdate data user');
+            return redirect('myprofile')->with('success', 'update data success');
         } else {
-            return redirect()->back()->with('error', 'Gagal update data');
+            return redirect()->back()->with('error', 'update data failed');
         }
     }
     

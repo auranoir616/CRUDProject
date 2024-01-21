@@ -33,7 +33,6 @@ class DataController extends Controller
 
     public function search(Request $request){
         $data = $request->input('query');
-
         $results = Post::where('title','like',"%$data%")
                         ->get();
         // dd($results);
