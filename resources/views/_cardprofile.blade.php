@@ -10,7 +10,7 @@ $followerCount = $followerCount - 1;
 <header>
   <div class="card mb-3" style="max-width: 540px;"">
     <div class="row g-0">
-      <div class="col-md-4">
+      <div class="col-md-4 img-cont">
         <img src="../data_file/{{$user->Images_profile}}" class="img-fluid rounded-start card-image"  alt="...">
       </div>
       <div class="col-md-8">

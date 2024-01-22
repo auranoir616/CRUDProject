@@ -7,7 +7,7 @@ body{
     margin: 0;
 
 }
-meheader{
+header{
     padding: 5px;
     display: flex;
     flex-direction: row;
@@ -119,7 +119,6 @@ meheader{
     width: 100px;
     object-fit: cover;
 }
-
 .aside-right{
     height: 100%;
     width: 100%;
@@ -320,12 +319,14 @@ aside{
     margin-bottom: 20px;
 }
 .card-image{
-    height: 200px;
-    width: 150px;
+    height: 100%;
+    width: 100%;
+}
+.img-cont{
+    max-height: 200px;
+    max-width: 100%;
 }
 
-
-    
     
 }
 #container-notif{
