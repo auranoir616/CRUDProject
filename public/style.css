@@ -4,19 +4,19 @@
 }
 body{
     background-color: rgb(244, 247, 247);
-    height: 90vh;
-}
-.container-data-header{
-    margin: 5px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    margin: 0;
 
 }
-.container-data-header2{
+meheader{
     padding: 5px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+}
+.card-image{
+    border-radius: 5px;
+    border: 1px solid rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
 }
 
 .box1{
@@ -26,13 +26,6 @@ body{
 }
 .title{
     text-align: center;
-
-}
-.profilePic{
-    border-radius: 50px;
-    border: 10px solid rgb(255, 255, 255);
-    height: 100px;
-    width: 100px;
 
 }
 
@@ -125,7 +118,6 @@ body{
     height: 100px;
     width: 100px;
     object-fit: cover;
-
 }
 
 .aside-right{
@@ -136,15 +128,15 @@ body{
 /** messages */
 .container-all-msg{
     height: 74vh;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    width: 100%;
 }
 
 .container-chat-form{
-    width: 75%;
     height: 90%; 
+    width: 75%;
     border-radius: 5px;
     display: flex;
     overflow-y: hidden;
@@ -241,7 +233,13 @@ article{
 aside{
     width: 25%;
 }
-
+.footer-profile{
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 /* profile */
 .container-image-post-profile {
     display: flex;
@@ -254,14 +252,6 @@ aside{
     max-width: 100%;
     /* height: auto; */
 }
-.ImgProfile{
-    border-radius: 25px;
-    max-height: 75%;
-    max-width: 75%;
-    min-height: 25%;
-    min-width: 25%;
-    background-color: blueviolet;
-}
 .fluid{
     border-radius: 25px;
     max-height: 100%;
@@ -270,13 +260,22 @@ aside{
     min-width: 100%;
 }
 .content{
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+#content{
+    /* width: 100%;
+    height: 100%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .fluid-form{
     background-color: white;
     border-radius: 25px;
@@ -287,7 +286,6 @@ aside{
 }
 @media (max-width: 600px) {
     .fluid-login {
-
         width: 90%; /* Sesuaikan lebar untuk layar yang lebih kecil */
     }
     .container-image-post-profile{
@@ -321,6 +319,11 @@ aside{
     width: 100vw;
     margin-bottom: 20px;
 }
+.card-image{
+    height: auto;
+    width: auto;
+}
+
 
     
     

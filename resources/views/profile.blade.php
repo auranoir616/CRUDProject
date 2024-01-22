@@ -27,7 +27,7 @@
     <div>
       @include('_navbar')
     </div>
-    @include('_header')
+    @include('_cardprofile')
 <div onclick=disappear() id="notif">
   @if(session('success'))
   <div class="alert alert-success">

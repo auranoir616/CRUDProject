@@ -101,13 +101,9 @@ public function editUser(User $datauser, Request $request){
         'editUsername' => ['required', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
         'editEmail' => ['required', 'email', Rule::unique('users', 'email')->ignore($datauser->id)],
         'editPassword' => ['sometimes', 'min:4'],
+        'editBio'=> 'required',
         'editImagesProfile' => 'sometimes','nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
     ]);
-    // Update password jika ada perubahan
-    if (isset($data['editPassword'])) {
-        $data['editPassword'] = bcrypt($data['editPassword']);
-    }
-    // Proses upload gambar dan penyimpanan data pengguna
     $file = $request->file('editImagesProfile');
     if ($request->hasFile('editImagesProfile')) {
         $nama_file = time() . "_" . $file->getClientOriginalName();
@@ -118,7 +114,8 @@ public function editUser(User $datauser, Request $request){
                 'name' => $request->editName,
                 'username' => $request->editUsername,
                 'email' => $request->editEmail,
-                'password' => $data['editPassword'] ?? null,
+                // 'password' => $data['editPassword'] ?? null,
+                'bio'=> $request->editBio,
                 'Images_profile' => $nama_file
             ];
             //validasi format gambar
@@ -128,7 +125,6 @@ public function editUser(User $datauser, Request $request){
             // Update data pengguna
             $datauser->update($newdata);
             if ($datauser->update($newdata)) {
-                // dd($datauser->update($newdata));
                 return redirect('myprofile')->with('success', 'update data success');
             } else {
                 return redirect()->back()->with('error', 'update data failed');
@@ -141,7 +137,7 @@ public function editUser(User $datauser, Request $request){
             'name' => $request->editName,
             'username' => $request->editUsername,
             'email' => $request->editEmail,
-            'password' => $data['editPassword'] ?? null,
+            'bio'=> $request->editBio,
             'Images_profile' => $nama_file
          ];
         // Update data pengguna

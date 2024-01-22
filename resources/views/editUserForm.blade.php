@@ -21,7 +21,7 @@
       
       </div>
         @auth
-        <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded fluid-form" >
+        <div class="shadow-lg p-3 mb-1 bg-body-tertiary rounded fluid-form" >
           <form action="/editUser/{{$datauser->id}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -42,6 +42,10 @@
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label" hidden >Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1" name="editPassword" value="{{$datauser->password}}" hidden>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Bio</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="editBio">{{$datauser->bio}}</textarea>
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">images</label>

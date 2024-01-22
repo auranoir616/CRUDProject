@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
-    
-
     <title>fishbook|home</title>
 </head>
+<?php
+  $username = auth()->user()->name;
+?>
 <body>
 <div id="loadingOverlay">
   <div class="text-center" >
@@ -19,10 +20,10 @@
 </div>
   <div id="content">
 @include('_navbar')
-@include('_header')
-
+<hr>
     <div class="containerHome">
       <aside >
+        @include('_cardprofile')
         @include('_aside')
       </aside>
     <article>
@@ -33,7 +34,7 @@
           <h1>Belum ada postingan</h1>
         </div>
         @else
-      
+
     @foreach ($postdata as $data)
 <div class="row g-0 position-relative postCont">
   <div class="col-md-6 mb-md-0 p-md-4">
@@ -79,7 +80,7 @@
   </div>
   <div class="input-group mb-3">
   <input type="text" name="bodytes" class="form-control inputkomen" placeholder="Your comment" aria-label="Your comment" aria-describedby="button-addon2" id="" postId="{{$data->id}}" >
-  <button class="btn btn-outline-secondary buttonkomen" type="submit" id="" postId="{{$data->id}}" username="{{$data->name}}">Comment</button>
+  <button class="btn btn-outline-secondary buttonkomen" type="submit" id="" postId="{{$data->id}}" username="{{$username}}">Comment</button>
   </div>
   </div>
 </div>

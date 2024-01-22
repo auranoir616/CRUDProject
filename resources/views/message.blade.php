@@ -11,7 +11,7 @@
 </head>
 <body>
     @include('_navbar')
-    @include('_header')
+    @include('_cardprofile')
     <div onclick=disappear() id="notif">
         @if(session('success'))
         <div class="alert alert-success">
@@ -26,11 +26,9 @@
       @endif
 {{-- users --}}
       </div>
-        <div class="w-100 p-3 container-all-msg">
+        <div class="container-all-msg">
           <div class="cont-btn-msg">  
             @if($sender == $receiver) 
-
-              
             <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <h4>tap to start message</h4>
             </button>
