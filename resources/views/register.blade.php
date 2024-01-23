@@ -5,6 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
+    <!-- Tambahkan di bagian head HTML -->
+<link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+<script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+<style>
+  #Image{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dfdfdf;
+  }
+</style>
 
     <title>fishbook|register</title>
 </head>
@@ -38,9 +50,9 @@
            @endif
   </div>
   </div>
-
+  <div class="cont-register">
       <div class="fluid-form w-50 p-3">
-      <form action="/register" method="POST" enctype="multipart/form-data">
+      <form action="/register" method="POST" enctype="multipart/form-data" id="dataform">
         @csrf
         <h2 class="title">register</h2>
         <div onclick=disappear() id="notif">
@@ -82,13 +94,13 @@
     </form>
     <p>have an account? <a href="/loginpage">login</a></p><br>
     <a href="/">Back</a>  
-
+  </div>
+  <div style="height: 250px; width:300px">
+    <img id="Image" src="img.png" alt="Image to crop">
+  </div>
+  </div>
   
-  </div>
 </div>
-  </div>
- 
-
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -100,6 +112,14 @@
  setTimeout(() => {
    notif.style.display = 'none'
  }, time);
+
+ let image = document.getElementById('Image')
+ let input = document.getElementById('exampleFormControlInput1')
+ input.addEventListener('change', () => {
+  image.src = URL.createObjectURL(input.files[0])
+  console.log(image.src);
+ })
 </script>
+
 
 </html>

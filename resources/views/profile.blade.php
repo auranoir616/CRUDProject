@@ -26,8 +26,9 @@
 <div id="content">
     <div>
       @include('_navbar')
+      @include('_headerprofile')
+
     </div>
-    @include('_cardprofile')
 <div onclick=disappear() id="notif">
   @if(session('success'))
   <div class="alert alert-success">
@@ -48,8 +49,7 @@
   @else
     <div class="container">
       @foreach ($postdata as $data)
-
-      <div class="card w-75 p-3 " >
+      <div class="card w-100 p-3" >
        <div class="container-image-post-profile">
         <img src="./data_file/{{$data['images']}}" width="100%" height="100%" alt="{{$data['images']}}">
        </div>

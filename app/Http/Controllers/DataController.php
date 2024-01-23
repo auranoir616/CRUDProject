@@ -47,14 +47,26 @@ class DataController extends Controller
         $receiverName = $datauser->name;
         $sendto = $sender.$receiver;
         $receivefrom = $receiver.$sender;
-        $userdata = DB::table('users')->whereNotIn('id',[$sender])->get();
-        $messagesSender = DB::table('messages')
+
+        $result = DB::table('messages')
+        ->where('user_id', $sender)
+        ->groupBy('recipient_id')
+        ->orderByDesc(DB::raw('MAX(updated_at)'))
+        ->pluck('recipient_id');
+        
+        $userdata = DB::table('users')->whereIn('id',$result)->get();
+        $resultArray = $result->toArray();
+        $userdatasorted = $userdata->sortBy(function ($user) use ($resultArray) {
+                return array_search($user->id, $resultArray);
+            });
+
+            $messagesSender = DB::table('messages')
                             ->where('id_chat',$sendto)
                             ->orwhere('id_chat',$receivefrom)
                             ->orderBy('updated_at','desc')
                             ->get();
 
-        return view('message', compact('sender','receiver','messagesSender','userdata','datauser','receiverName'));
+        return view('message', compact('sender','result','receiver','messagesSender','userdatasorted','datauser','receiverName'));
     }else{
         return redirect('loginpage');
     }  

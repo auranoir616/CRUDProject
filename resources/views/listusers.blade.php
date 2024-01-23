@@ -24,6 +24,7 @@
                       <button type="submit" class="btn btn-outline-info btnFollow" following_user_id="{{$user->id}}">
                         {{ auth()->user()->followedUser->contains($user->id) ? 'Unfollow' : 'Follow' }}
                     </button>
+                    <a href="/messages/{{$user->id}}" class="btn btn-outline-secondary">message</a>
                     </div>
                     <div class="card-footer">
                         <small class="text-body-secondary">join at: {{$user->created_at}}</small>

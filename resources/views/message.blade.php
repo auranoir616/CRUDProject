@@ -8,10 +8,91 @@
     <link href="../style.css" rel="stylesheet">
 
     <title>fishbook|message</title>
+    <style>
+.container-all-msg{
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+ .cont-btn-msg{
+    width: 25%;
+    height: 100%; 
+    padding: 1px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    overflow: auto;
+    border-radius: 5px;
+    background-color: white
+ }
+ .container-chat-form{
+    height: 100%; 
+    width: 75%;
+    border-radius: 5px;
+    display: flex;
+    overflow-y: hidden;
+    flex-direction: column;
+    padding: 10px;
+    background-color: white;
+}
+.container-chat-msg{
+    overflow-y: auto;
+    align-self: stretch;
+    height: 90%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.cont-user{
+  width: 100%;
+  height: 100%;
+
+}
+@media(max-width:1000px){
+  .container-all-msg{
+    flex-direction: column;
+  }
+.cont-btn-msg{
+  width:100%;
+  height: 110px;
+  margin-bottom: 5px;
+}
+.container-chat-form{
+  width: 100%;
+}
+.user-msg{
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  margin: 5px
+}
+.cont-user{
+  width: auto ;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.msg-user{
+  min-width: 100%;
+    }
+.msg-receiver{
+   min-width: 100%;
+    }
+
+}
+    </style>
 </head>
 <body>
     @include('_navbar')
-    @include('_cardprofile')
+    <hr>
     <div onclick=disappear() id="notif">
         @if(session('success'))
         <div class="alert alert-success">
@@ -28,33 +109,13 @@
       </div>
         <div class="container-all-msg">
           <div class="cont-btn-msg">  
-            @if($sender == $receiver) 
-            <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <h4>tap to start message</h4>
-            </button>
-            @else
-            <div class="img-receiver">
-              <img src="../data_file/{{$datauser->Images_profile}}" alt="{{$receiverName}}" class="image" >
-            </div> 
-            <button class="btn btn-primary btn-msg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <h4>{{$receiverName}}</h4>
-                </button>                           
-            @endif
-              <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                <div class="offcanvas-header">
-                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Users</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              <div class="cont-user">
+                @foreach($userdatasorted as $user)
+                <div class="user-msg alert @if($user->id == $receiver) alert-dark @else alert-light @endif" role="alert">
+                <img src="../data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
+                 <a href="/messages/{{$user->id}}" class="alert-link stretched-link">{{$user->name}}</a>
                 </div>
-                <div class="offcanvas-body">
-                  <div>
-                    @foreach($userdata as $user)
-                    <div class="user-msg alert @if($user->id == $receiver) alert-dark @else alert-light @endif" role="alert">
-                    <img src="../data_file/{{$user->Images_profile}}" alt="" class="thumbnailImgProfile">
-                     <a href="/messages/{{$user->id}}" class="alert-link stretched-link">{{$user->name}}</a>
-                  </div>
-                    @endforeach
-                </div>
-                </div>
+                @endforeach
               </div>
             </div>
 {{-- message --}}

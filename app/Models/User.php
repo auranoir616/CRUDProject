@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Post;
 use App\Models\Likes;
 use App\Models\Follow;
+use App\Models\Messages;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,13 +55,10 @@ class User extends Authenticatable
     public function followedUser() {
     return $this->belongsToMany(User::class, 'follower', 'user_id', 'following_user');
     }
-    // Di dalam model User
-    //param 1 tabel yang akan diakses
-    //parem 2 tabel perantara antara users dan post
-    //param 3 
-    public function followedPosts() {
-        return $this->hasManyThrough(Post::class, Follow::class, 'user_id', 'user_id', 'id', 'following_user');
-    }
+    public function messages()
+{
+    return $this->hasMany(Messages::class, 'recipient_id')->latest();
+}
     
 
 }
