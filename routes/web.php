@@ -26,7 +26,12 @@ Route::get('/loginpage', function(){
     return view('loginpage');
     }
 });
-
+Route::get('/game', function(){
+    return view('games');
+});
+Route::get('/gameravens', function(){
+    return view('gamesRavens');
+});
 Route::get('/listusers',[DataController::class, "listUsers"]);
 Route::get('/search',[DataController::class, 'search']);
 Route::post('/follow/{user_id}',[DataController::class, 'follow']);

@@ -14,13 +14,6 @@ header{
     justify-content: space-around;
     align-items: center;
 }
-.card-image{
-    height: 250px;
-    width: 100%;
-    border-radius: 5%;
-    object-fit: fill;
-    background: #dfdfdf;
-  }
   .card-image-head{
     height: 200px;
     width: 100%;
@@ -73,8 +66,9 @@ header{
 }
 .images{
     width:100%;
-    height:300px;
+    height:100%;
     border-radius: 10px;
+    border: 5px solid white;
 }
 .postCont{
     border-radius: 10px;
@@ -177,11 +171,11 @@ header{
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
 }
 .container-image-post-profile{
     width: 100%;
-    height: 100%;
-    min-height: 25%;
+    height: 50%;
 }
 
 .footer{
@@ -206,13 +200,6 @@ article{
 aside{
     width: 25%;
 }
-.footer-profile{
-    width: 75%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
 /* profile */
 .container-image-post-profile {
     display: flex;
@@ -221,10 +208,6 @@ aside{
     width: 100%;
 }
 
-.container-image-post-profile img {
-    max-width: 100%;
-    /* height: auto; */
-}
 .fluid{
     border-radius: 25px;
     max-height: 100%;
@@ -257,7 +240,7 @@ aside{
     min-width: 250px; /* Atur lebar minimum jika diperlukan */
     padding: 20px; /* Tambahkan padding sesuai kebutuhan */
 }
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     .fluid-login {
         width: 90%; /* Sesuaikan lebar untuk layar yang lebih kecil */
     }
@@ -271,12 +254,12 @@ aside{
     width: 100vw;
     margin-bottom: 20px;
 }
-.card-body{
+/* .card-body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: start;
-}
+} */
 
 .card-body-cont{
     margin-top: 1px;
