@@ -23,25 +23,39 @@ $user = auth()->user()
             <li class="nav-item">
               <a class="nav-link" href="/myprofile">Profile</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/messages/{{$user->id}}">Messages</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/game">Play a Game</a>
+            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{$name}}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/messages/{{$user->id}}">Messages</a></li>
                 <li><a class="dropdown-item" href="/editUserForm/{{$user->id}}">Edit profile</a></li>
                 <li><a class="dropdown-item" href="/listusers">List Users</a></li>
-                <li><a class="dropdown-item" href="/game">play a game</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/logout">log out</a></li>
               </ul>
             </li>
           </ul>
           <form class="d-flex" action="/search" method="GET" >
-            <input class="form-control me-2" placeholder="Search" aria-label="Search" name="query">
-            <button class="btn btn-outline-light" type="submit">Search</button>
+            <input class="form-control me-2" placeholder="Search" aria-label="Search" name="query" id="inputsearch">
+            <button class="btn btn-outline-light" type="submit" id="buttonSearch" disabled>Search</button>
           </form>
         </div>
       </div>
     </nav>
   </navbar>
+  <script>
+    let input = document.getElementById('inputsearch')
+    let button = document.getElementById('buttonSearch')
+    input.addEventListener('change', () =>{
+      if(input.value){
+      button.disabled = false
+    }
+    })
+  </script>

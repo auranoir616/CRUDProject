@@ -34,7 +34,6 @@ $followerCount = $followerCount - 1;
           border-radius: 5%;
           object-fit: fill;
           background: #ffffff;
-
       }
 
       .card-body{
@@ -53,8 +52,8 @@ $followerCount = $followerCount - 1;
           height: 25%;
       }
       .img-card{
-          height: 150px;
-          width: 100px;
+          height: 185px;
+          width: 125px;
           border-radius: 10%;
           object-fit: cover;
       }

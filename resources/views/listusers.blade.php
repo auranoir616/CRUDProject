@@ -5,17 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
-
     <title>List User</title>
 </head>
 <body>
+  <style>
+    .images{
+    width:100%;
+    height:100%;
+    border-radius: 10px;
+    border: 5px solid white;
+}
+.card-img{
+  width: 100%;
+  height: 250px;
+}
+  </style>
     @include("_navbar");
-    @include("_cardprofile");
+    {{-- @include("_cardprofile"); --}}
               <div class="row row-cols-1 row-cols-md-4 g-4">
                 @foreach($allusers as $user)
                 <div class="col">
                   <div class="card">
-                    <img src="./data_file/{{$user->Images_profile}}" class="card-img-top images" alt="...">
+                    <div class="card-img">
+                      <img src="./data_file/{{$user->Images_profile}}" class="images" alt="...">
+                    </div>
                     <div class="card-body">
                       <h5 class="card-title"> <a href="/profile/{{$user->username}}">{{$user->name}}</a></h5>
                       <p class="card-text">

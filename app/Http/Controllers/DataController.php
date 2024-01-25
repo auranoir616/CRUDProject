@@ -23,9 +23,14 @@ class DataController extends Controller
     //menampilkan data user yang terdaftar
     public function profileData($username){
         if(auth()->check()){
-        $dataUser = DB::table('allpost')->where('username', $username)->get();
-        return view('profileusers', ['dataUser' => $dataUser]);
-    }else{
+        $dataUser = DB::table('users')->where('username', $username)->get();
+        $dataPost = DB::table('allpost')->where('username', $username)->get();
+        $postIDs = $dataPost->pluck('id');
+        $likes = Likes::whereIn('post_id', $postIDs)->get();
+        $likesCount = $likes->groupBy('post_id')->map->count();
+        $comments = DB::table('userscomments')->orderBy('updated_at')->get();
+        return view('profileusers', compact('dataPost','likesCount','comments','dataUser'));
+        }else{
         return redirect('loginpage');
     }  
 
@@ -33,10 +38,15 @@ class DataController extends Controller
 
     public function search(Request $request){
         $data = $request->input('query');
+        if($data){
         $results = Post::where('title','like',"%$data%")
                         ->get();
         // dd($results);
         return view('searchResults', compact('results'));
+        }
+        else{
+            return view('searchResults');
+        }
     }
 
     public function messagesPage(User $datauser){

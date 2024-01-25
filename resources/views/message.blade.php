@@ -50,8 +50,16 @@
 .cont-user{
   width: 100%;
   height: 100%;
-
+  background-color: rgb(219, 219, 219)
+  border-radius: 5px;
 }
+.no-msg{
+    align-self: center;
+    font-size: 20px;
+    opacity: 50%;
+    margin-bottom: 25%
+}
+
 @media(max-width:1000px){
   .container-all-msg{
     flex-direction: column;
@@ -79,6 +87,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: rgb(219, 219, 219)
 }
 .msg-user{
   min-width: 100%;
@@ -122,7 +131,7 @@
             <div class="container-chat-form">
                 <div class="container-chat-msg">
                   @if($sender == $receiver) 
-                    <h1 class="no-msg">no messages</h1>
+                    <h6 class="no-msg"> <a href="/listusers">klik existing users or here to start a conversation</a></h6>
                   @endif
                     @foreach($messagesSender as $msg)
                     @if($sender == $msg->user_id)

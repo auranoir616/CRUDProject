@@ -36,7 +36,7 @@
         }
         h5{
             position: absolute;
-            top: 90%;
+            top: 85%;
             left: 50%;
             transform: translate(-50%, -50%);
             margin-top: 20px;
@@ -49,8 +49,9 @@
 <canvas id="canvas1"></canvas>
 <h5>
     <ul>
-        <li>tombol arah untuk navigasi</li>
-        <li>S untuk skill</li>
+        <li>Arrows to navigate</li>
+        <li>S to skill</li>
+        <li>Achive 40 score to win</li>
     </ul>
     
 </h5>
