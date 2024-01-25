@@ -75,7 +75,7 @@ height: 60px;
 overflow: auto;
 margin-bottom:5px; 
 }
-@media(max-width:750px){
+@media(max-width:1200px){
   .card-image{
       height: 100%;
       width: 40%;

@@ -72,7 +72,7 @@ class UserController extends Controller
             $user = auth()->user();
             // Menyimpan username ke dalam session untuk digunakan di halaman /post
             session(['name' => $user->name,'email' => $user->email, 'images' => $user->Images_profile,]);    
-            return redirect('/myprofile')->with('success', 'berhasil login');
+            return redirect('/allpost')->with('success', 'berhasil login');
         }else{
             return redirect()->back()->with('error','Username or password is Incorrect');
         }
