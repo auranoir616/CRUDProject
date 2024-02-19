@@ -1,10 +1,11 @@
 
-<footer class="footer">
-
-      <div style="align-self: center">
-        <hr>
-
-        {{ $postdata->appends(['page' => $postdata->currentPage()])->links('pagination::bootstrap-4') }}  
+<footer>
+      <div >
+        @if(isset($postdata) && $postdata)
+        {{$postdata->appends(['page' => $postdata->currentPage()])->links('pagination::bootstrap-4') }}  
+        @else
+        {{$allusers->appends(['page' => $allusers->currentPage()])->links('pagination::bootstrap-4') }} 
+         @endif
       </div>
     </footer>
   

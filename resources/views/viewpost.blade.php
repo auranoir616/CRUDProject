@@ -29,7 +29,7 @@
                 </button>
                 <ul class="dropdown-menu">
                   @foreach($sharepage as $key => $value)
-                  <li><a class="dropdown-item" href="{{$value}}" target="blank">{{$key}}</a></li>
+                  <li><a class="dropdown-item" href="{{$value}}{{$post->id}}" target="blank">{{$key}}</a></li>
                   @endforeach
                 </ul>
               </div>

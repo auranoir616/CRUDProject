@@ -16,8 +16,10 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/likesCount/{postId}', [DataController::class, 'likesCount']);
+
 Route::get('/', function(){
-    return view('welcome');
+    return view('loginpage');
 });
 Route::get('/loginpage', function(){
     if(auth()->check()){
@@ -32,7 +34,7 @@ Route::get('/game', function(){
 Route::get('/listusers',[DataController::class, "listUsers"]);
 Route::get('/search',[DataController::class, 'search']);
 Route::post('/follow/{user_id}',[DataController::class, 'follow']);
-Route::get('/profile/{username}',[DataController::class, 'profileData']);
+Route::get('/profile/{id}-{username}',[DataController::class, 'profileData']);
 Route::get('/messages/{datauser}',[DataController::class, 'messagesPage']);
 // Route::get('/messages/{datauser}', function(User $datauser){
 //     $sender = auth()->user();
@@ -57,6 +59,7 @@ Route::get('/registerPage', function () {
     return view('register');
 });
 
+Route::put('/editBio/{datauser}',[DataController::class, 'editBio']);
 
 Route::get('/myprofile', [DataController::class, 'dataMyProfile']);
 
@@ -78,7 +81,6 @@ Route::get('/{post}', [PostController::class, 'viewPost']);
 Route::post('/comment', [PostController::class, 'comment']);
 
 Route::post('/likes/{post}', [PostController::class, 'like']);
-
 Route::get('/editUserForm/{datauser}',[UserController::class, "editUserForm"]);
 Route::put('/editUser/{datauser}',[UserController::class, 'editUser']);
 

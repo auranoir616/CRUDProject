@@ -1,15 +1,5 @@
-<?php 
-$user = auth()->user();
-$countPost = DB::table('post')->where('user_id',$user->id)->count('id');
-$followingCount = DB::table('follower')->where('user_id',$user->id)->count('following_user');
-$followingCount = $followingCount - 1 ;
-$followerCount = DB::table('follower')->where('following_user',$user->id)->count('following_user');
-$followerCount = $followerCount - 1;
-
-?>
-    <style>
-  </style>
-  <div class="cardProfile">
+<div class="cardProfile">
+    @foreach($userData as $user)
       <div class="card-inner">
           <div class="card-image">
               <img src="../data_file/{{$user->Images_profile}}" alt="" class="img-card">
@@ -22,13 +12,9 @@ $followerCount = $followerCount - 1;
                         <small class="card-text" >{{$user->bio}}</small>
 
                       </div>
-                      <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Create a Post
-                      </button>
-                      <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Edit bio
-                      </button>
-                      
+                      <button type="submit" class="btn btn-outline-info btnFollow" following_user_id="{{$user->id}}">
+                        {{ auth()->user()->followedUser->contains($user->id) ? 'Unfollow' : 'Follow' }}
+                    </button>
                     </div>
                 </div>
                 
@@ -36,44 +22,17 @@ $followerCount = $followerCount - 1;
                     <div class="footer-data">
                         <small><b>follower : {{$followerCount}} </b></small>
                         <small><b>following : {{$followingCount}} </b></small>
-                        <small><b>Post : {{$countPost}} </b></small>
+                        <small><b>Post : {{$postCount}} </b></small>
                     </div>
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
     
     <hr>
 <!-- Button trigger modal -->
-  <!-- Button trigger modal -->
-
-<!-- bio Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Bio</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="/editBio/{{$user->id}}" method="POST" enctype="multipart/form-data">
-          @csrf
-          @method('PUT')
-    
-        <div class="mb-3">
-          {{-- <label for="exampleFormControlTextarea1" class="form-label">Bio</label> --}}
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="editBio" oninput="CountChar()" maxlength="150"></textarea>
-        </div>
-    
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button> 
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
+  
   <!-- Modal -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -118,13 +77,31 @@ $followerCount = $followerCount - 1;
       </div>
     </div>
   </div>
-<script>
-  function CountChar(){
+  <script>
 
-var char = document.getElementById("exampleFormControlTextarea1").value
-var jmlhchar = char.length
-document.getElementsByClassName("jumlah")[0].innerHTML = jmlhchar + '/600'
+let btnfollow = document.querySelectorAll('.btnFollow')
+btnfollow.forEach(function(btn){
+  btn.addEventListener('click', function(){
+      let user_id = this.getAttribute('following_user_id')
+      console.log('user',user_id)
+      fetch(`/follow/${user_id}`,{
+          method: "POST",
+          headers: {'Content-Type': 'application/x-www-form-urlencoded',},
+          body: 'following_user_id=' + user_id
+      })
+      .then(response => response.text())
+      .then(data =>{
+          console.log(data)
+          if(btn.innerText === 'Unfollow'){
+              btn.innerText = 'Follow'
+          }else{
+              btn.innerText = 'Unfollow'
+          }
+      })
+      .catch(err =>{
+          console.log(err)
+      })
+  })
+})
 
-
-}
 </script>

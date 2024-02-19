@@ -10,6 +10,7 @@ use App\Models\Follow;
 use App\Models\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\PostController;
 
 class DataController extends Controller
 
@@ -21,15 +22,36 @@ class DataController extends Controller
 
     }
     //menampilkan data user yang terdaftar
-    public function profileData($username){
+    public function profileData($id, $username){
         if(auth()->check()){
-        $dataUser = DB::table('users')->where('username', $username)->get();
-        $dataPost = DB::table('allpost')->where('username', $username)->get();
-        $postIDs = $dataPost->pluck('id');
+        $userData = DB::table('users')->where('id', $id)->get();
+        $postdata = DB::table('allpost')->where('user_id', $id)->paginate(5);
+        $postIDs = $postdata->pluck('id');
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
         $comments = DB::table('userscomments')->orderBy('updated_at')->get();
-        return view('profileusers', compact('dataPost','likesCount','comments','dataUser'));
+        $postCount = DB::table('post')->where('user_id',$id)->count('id');
+        $followingCount = DB::table('follower')->where('user_id',$id)->count('following_user');
+        $followingCount = $followingCount - 1 ;
+        $followerCount = DB::table('follower')->where('following_user',$id)->count('following_user');
+        $followerCount = $followerCount - 1;
+           
+        $postController = app('App\Http\Controllers\PostController');
+        $sharepage = $postController->SharePage();
+        $postToShare = Post::select('id')->get();
+        // dd($postdata);
+        foreach($postToShare as $data){
+            $sharepage = $postController->SharePage($data);
+           //  dd($data);
+           }
+
+           foreach($postdata as $data) {
+               $formatTime = $postController->formatTimeAgo($data->updated_at);
+             $data->formatted_updated_at = $postController->formatTimeAgo($data->updated_at);
+        }
+        // dd($userData, $postdata, $postCount, $followingCount, $followerCount);
+
+        return view('profileusers', compact('postdata','likesCount','comments','sharepage','followerCount','followingCount','postCount','userData'));
         }else{
         return redirect('loginpage');
     }  
@@ -39,10 +61,33 @@ class DataController extends Controller
     public function search(Request $request){
         $data = $request->input('query');
         if($data){
-        $results = Post::where('title','like',"%$data%")
-                        ->get();
-        // dd($results);
-        return view('searchResults', compact('results'));
+        $userID = auth()->user()->id;
+        // dd($user);
+        $resultsPost = Post::where('body','like',"%$data%")->paginate(10);
+        $resultsUser = User::where('username','like',"%$data%")->where('id', '!=', $userID)->paginate(10);
+        $comments = DB::table('userscomments')->orderBy('updated_at')->get();
+
+        $postController = app('App\Http\Controllers\PostController');
+        $sharepage = $postController->SharePage();
+        $postToShare = Post::select('id')->get();
+        // dd($postdata);
+        foreach($postToShare as $data){
+            $sharepage = $postController->SharePage($data);
+           //  dd($data);
+           }
+           foreach($resultsPost as $data) {
+            $formatTime = $postController->formatTimeAgo($data->updated_at);
+          $data->formatted_updated_at = $postController->formatTimeAgo($data->updated_at);
+     }
+
+           foreach($resultsUser as $data) {
+               $formatTime = $postController->formatTimeAgo($data->updated_at);
+             $data->formatted_updated_at = $postController->formatTimeAgo($data->updated_at);
+        }
+
+        // dd($resultsPost);
+        // return response()->json(['resultsPost' => $resultsPost,'resultsUser' => $resultsUser ]);
+        return view('searchResults', compact('resultsPost','resultsUser','comments','sharepage'));
         }
         else{
             return view('searchResults');
@@ -69,14 +114,14 @@ class DataController extends Controller
         $userdatasorted = $userdata->sortBy(function ($user) use ($resultArray) {
                 return array_search($user->id, $resultArray);
             });
-
+            // dd($result);
             $messagesSender = DB::table('messages')
                             ->where('id_chat',$sendto)
                             ->orwhere('id_chat',$receivefrom)
                             ->orderBy('updated_at','desc')
                             ->get();
-
-        return view('message', compact('sender','result','receiver','messagesSender','userdatasorted','datauser','receiverName'));
+             $newMessages = DB::table('messages')->where('recipient_id', $sender)->select('user_id')->distinct()->get();
+        return view('message', compact('sender','result','receiver','messagesSender','userdatasorted','datauser','receiverName','newMessages'));
     }else{
         return redirect('loginpage');
     }  
@@ -108,7 +153,7 @@ class DataController extends Controller
 
     public function listUsers(){
         $user = auth()->id(); //menampilkan data user kecuali yang sedang login
-        $allusers = DB::table('users')->whereNotIn('id',[$user])->get();
+        $allusers = DB::table('users')->whereNotIn('id',[$user])->paginate(10);
         return view('listusers',compact('allusers'));
     }
 
@@ -123,7 +168,23 @@ class DataController extends Controller
                 $likes = Likes::whereIn('post_id', $postIDs)->get();
                 $likesCount = $likes->groupBy('post_id')->map->count();
                 $comments = DB::table('userscomments')->orderBy('updated_at')->get();
-                return view('profile', compact('postdata','likesCount','comments'));
+                $postToEdit = Post::where('user_id', $user);
+                $postController = app('App\Http\Controllers\PostController');
+                $sharepage = $postController->SharePage();
+                $postToShare = Post::select('id')->get();
+                // dd($postdata);
+                foreach($postToShare as $data){
+                    $sharepage = $postController->SharePage($data);
+                   //  dd($data);
+                   }
+
+                   foreach($postdata as $data) {
+                       $formatTime = $postController->formatTimeAgo($data->updated_at);
+                    $data->formatted_updated_at = $postController->formatTimeAgo($data->updated_at);
+                }
+        
+                          
+                return view('profile', compact('postdata','likesCount','comments','sharepage','postToEdit'));
             }else{
                 return redirect('/');
         
@@ -148,4 +209,33 @@ class DataController extends Controller
         }
         return redirect()->back();
     }
+    public function likesCount(Post $postId){
+        $user = auth()->user();
+        $postId = $postId->id;
+        $CountLikesPost = Likes::where('post_id', $postId)->count();
+        return response()->json(['CountLikesPost' => $CountLikesPost,'postId' => $postId, ]);
+    }
+
+    public function editBio(User $datauser, Request $request){
+        if(!auth()->check()){
+            return redirect('/loginPage');
+        }else{
+            if(auth()->user()->id == $datauser['id']){
+                $data = $request->validate([
+                    'editBio'=> 'required',
+                ]);
+                $newBio = ['bio'=> $request->editBio];
+
+                $datauser->update($newBio);
+                 if ($datauser->update($newBio)) {
+                    return redirect('myprofile')->with('success', 'update data success');
+                } else {
+                     return redirect()->back()->with('error', 'update data failed');
+                }
+                    } 
+            }
+            
+        }
+
 }
+

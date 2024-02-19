@@ -11,33 +11,64 @@ use Illuminate\Http\Request;
 use App\Notifications\deleteNotif;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
+public function formatTimeAgo($updatedAt){
+    $updatedTime = Carbon::parse($updatedAt);
+    $now = Carbon::now();
+
+    if ($updatedTime->diffInDays($now) > 0) {
+        return $updatedTime->diffInDays($now) . ' days ago';
+    } elseif ($updatedTime->diffInHours($now) > 0) {
+        return $updatedTime->diffInHours($now) . ' hours ago';
+    } elseif ($updatedTime->diffInMinutes($now) > 0) {
+        return $updatedTime->diffInMinutes($now) . ' minutes ago';
+    } else {
+        return 'Just now';
+    }
+}
+
+    //generate link share page
+    public function SharePage(){
+        $appUrl = url('/');
+        $page = $appUrl.'/';
+        return Share::page( $page,'share my post')
+        ->facebook()
+        ->twitter()
+        ->linkedin()
+        ->whatsapp()
+        ->pinterest()
+        ->telegram()
+        ->reddit()
+        ->getRawLinks();
+        }
+
     public function createPost(Request $request){
         $data = $request->validate([
-            'title' => 'required',
             'body' => 'required',
-            'images' => 'required|mimes:jpeg,png,jpg,gif,webp|max:2048'
-        ],[
-            'title.required' => 'title must be filled',
-            'body.required' => 'body must be filled',
-            'images.required' => 'images must be filled'
-            ]);
+            'images' => 'nullable|mimes:jpeg,png,jpg,gif,webp|max:2048'
+        ]);
         $file = $request->file('images');
-        $nama_file = time()."_".$file->getClientOriginalName();
+        $saveDataPost = [
+            'body' => $request->body,
+            // 'images' =>$nama_file,
+            'user_id' =>auth()->id()
+        ];
         $folder_upload = 'data_file';
-        if($file->move($folder_upload, $nama_file)){
-            $saveData = Post::create([
-                'title' => $request->title,
-                'body' => $request->body,
-                'images' =>$nama_file,
-                'user_id' =>auth()->id()
-            ]);
-            return redirect('post')->with('success', 'Post berhasil ditambahkan');
+        if ($request->hasFile('images') && $file->isValid() && in_array($file->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif', 'webp'])) {
+            $nama_file = time()."_".$file->getClientOriginalName();
+            if($file->move($folder_upload, $nama_file)){
+            $saveDataPost['images'] = $nama_file;
         }else{
-            return redirect('post')->with('error', 'Anda tidak memiliki izin');
+            return redirect('post')->with('error', 'upload gambar gagal');
         }
+    }
+        if (Post::create($saveDataPost)) {
+            return redirect()->back()->with('success', 'save data berhasil');
+        }
+        return redirect()->back()->with('error', 'upload data gagal');
     }
     //mendapatkan semua data dari VIEW post dan menampilkannya secara descending 
     public function allPost(){
@@ -51,10 +82,15 @@ class PostController extends Controller
             })
                 ->join('users','post.user_id','=','users.id')
                 ->where('follower.user_id', $userId)
-                ->select('post.*','users.name','users.Images_profile','users.username')
-                ->whereNotNull('title')
+                ->select('post.*','users.name','users.Images_profile','users.username','users.id as user_id')
+                ->whereNotNull('body')
                 ->inRandomOrder()
                 ->paginate(5);
+                  //format waktu sebelum ditampilkan
+        foreach($postdata as $data) {
+            $data->formatted_updated_at = $this->formatTimeAgo($data->updated_at);
+        }
+      
         //untuk menampilkan komentar
         $comments = DB::table('userscomments')->orderBy('updated_at')->get();
          } catch (\Exception $e) {
@@ -71,9 +107,14 @@ class PostController extends Controller
         ->get();
         //mendapatkan data array dari hasil join $postdata untuk mencari jumlah likesnya
         $postIDs = $postdata->pluck('id');
+        $postToShare = Post::select('id')->get();
+         foreach($postToShare as $data){
+             $sharepage = $this->SharePage($data);
+            //  dd($data);
+            }
         $likes = Likes::whereIn('post_id', $postIDs)->get();
         $likesCount = $likes->groupBy('post_id')->map->count();
-        return view('allpost',compact('postdata','comments','likesCount','sugestedUsers'));
+        return view('allpost',compact('postdata','comments','likesCount','sugestedUsers','sharepage'));
         }else{
             return view('loginpage');
         }  
@@ -96,9 +137,8 @@ class PostController extends Controller
         if(auth()->check()){
         if(auth()->user()->id == $post['user_id']){
             $data = $request->validate([
-                'title'=> 'required',
                 'body'=> 'required',
-                'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'images' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
             ]);
             if($request->hasFile('images')){
                 $file = $request->file('images');
@@ -130,7 +170,6 @@ class PostController extends Controller
         // $msg = auth()->user()->id == $post['user_id'];
         if(auth()->user()->id == $post['user_id']){
             $post->delete();
-
         //  dd('ok',$msg);
             return redirect('myprofile')->with('success', 'Post berhasil dihapus');
         }
@@ -141,22 +180,11 @@ class PostController extends Controller
     //menambahkan fitur share page
     public function viewPost(Post $post){
         if(auth()->check()){
-
         $id = $post->id;
         $title = $post->title;
-        $appUrl = url('/');
-        $page = $appUrl.'/'.$id.'-'.$title;
-        $sharepage = Share::page( $page,'share my prototype web')
-        ->facebook()
-        ->twitter()
-        ->linkedin()
-        ->whatsapp()
-        ->pinterest()
-        ->telegram()
-        ->reddit()
-        ->getRawLinks();
+        $link = $id.'-'.$title;
+        $sharepage = $this->SharePage($link);
         return view('viewpost',compact('sharepage','post'));
-    
         }else{
             return view('loginpage');
         }  
@@ -196,7 +224,16 @@ class PostController extends Controller
             $like->post_id = $postId;
             $like->save();
         }
-        return redirect()->back();
+        return response()->json(['existingLike' => $existingLike]);
+        // return redirect()->back();
 }
+        public function likeCount(Post $post){
+            $user = auth()->user();
+            $postId = $post->id;
+            $CountLikesPost = Likes::where('post_id', $postId)->count();
+            return response()->json(['CountLikesPost' => $CountLikesPost]);
+            // return redirect()->back();
+        }
+
 
 }

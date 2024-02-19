@@ -8,44 +8,43 @@
     <title>List User</title>
 </head>
 <body>
-  <style>
-    .images{
-    width:100%;
-    height:100%;
-    border-radius: 10px;
-    border: 5px solid white;
-}
-.card-img{
-  width: 100%;
-  height: 250px;
-}
-  </style>
-    @include("_navbar");
-    {{-- @include("_cardprofile"); --}}
-              <div class="row row-cols-1 row-cols-md-4 g-4">
-                @foreach($allusers as $user)
-                <div class="col">
-                  <div class="card">
-                    <div class="card-img">
-                      <img src="./data_file/{{$user->Images_profile}}" class="images" alt="...">
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title"> <a href="/profile/{{$user->username}}">{{$user->name}}</a></h5>
-                      <p class="card-text">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                      </p>
-                      <button type="submit" class="btn btn-outline-info btnFollow" following_user_id="{{$user->id}}">
-                        {{ auth()->user()->followedUser->contains($user->id) ? 'Unfollow' : 'Follow' }}
-                    </button>
-                    <a href="/messages/{{$user->id}}" class="btn btn-outline-secondary">message</a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-body-secondary">join at: {{$user->created_at}}</small>
-                      </div>
-                  </div>
-                </div>
-                @endforeach
-              </div>
+  @include('_navbar')
+  <hr>
+  <main>
+<hr>
+      <aside>
+      </aside>
+    <article>
+      <h5>suggestions</h5><br>
+      <ul class="list-group list-group-flush">
+        @foreach($allusers as $user)
+        <li class="list-group-item">
+          <div id="suggestions">
+
+            <div>
+              <img src="./data_file/{{$user->Images_profile}}" class="card-img-top" id="image-suggestions" alt="...">
+              <a href="/profile/{{$user->id}}-{{$user->username}}" class="link-light link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                {{$user->username}}
+              </a>
+              <a href="/messages/{{$user->id}}" class="btn btn-outline-secondary">message</a>
+            </div>
+            <div>
+              <button type="submit" @if(auth()->user()->followedUser->contains($user->id)) class="btn btn-secondary btnFollow btn-sm" @endif class="btn btn-light btnFollow btn-sm" following_user_id="{{$user->id}}">
+                {{ auth()->user()->followedUser->contains($user->id) ? 'Unfollow' : 'Follow' }}
+              </button>
+            </div>
+            
+          </div>
+          </li>
+        @endforeach
+        {{-- <a href="/listusers" class="link-light" align="center">view more</a> --}}
+      </ul>
+      @include('_footer')
+    </article>
+<section>
+</section>
+</main>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script>
@@ -65,8 +64,11 @@
             console.log(data)
             if(btn.innerText === 'Unfollow'){
                 btn.innerText = 'Follow'
+                btn.classList = 'btn btn-light btnFollow btn-sm'
             }else{
                 btn.innerText = 'Unfollow'
+                btn.classList = 'btn btn-secondary btnFollow btn-sm'
+
             }
         })
         .catch(err =>{

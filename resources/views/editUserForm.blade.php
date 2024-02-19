@@ -9,9 +9,11 @@
     <title>Document</title>
 </head>
 <body>
-  <div class="content">
-
-  
+  @include('_navbar')
+<main>
+  <aside>
+  </aside>
+  <article>
     <div onclick=disappear() id="notif">   
       @if(session('error'))
         <div class="alert alert-danger">
@@ -21,11 +23,12 @@
       
       </div>
         @auth
-        <div class="shadow-lg p-3 mb-1 bg-body-tertiary rounded fluid-form" >
+        <h2 class="title" align="center">Edit Profile</h2>
+        <hr>
+        <div class="shadow-lg p-3 mb-1 rounded">
           <form action="/editUser/{{$datauser->id}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <h2 class="title">Edit Profile</h2>
       
             <div class="mb-3 ">
               <label for="exampleInputEmail1" class="form-label">Name</label>
@@ -45,7 +48,7 @@
           </div>
           <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Bio</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="editBio">{{$datauser->bio}}</textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="editBio" maxlength="150">{{$datauser->bio}}</textarea>
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">images</label>
@@ -56,11 +59,15 @@
           <button type="button" class="btn btn-secondary"><a href="/myprofile" class="link-light">Cancel</a></button> 
           </div>
         </form>
+      </article>
         @else
         <h1>belum login</h1>
 
         @endauth
-      </div>
+        <section>
+
+        </section>
+      </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>

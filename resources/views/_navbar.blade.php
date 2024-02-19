@@ -5,8 +5,9 @@ $images = session('images');
 $likes = DB::table('likes')->get();  
 $user = auth()->user()
 ?>
+<header>
 
-<navbar>
+  <navbar>
     <nav class="navbar navbar-expand-lg bg-body-tertiary  bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -29,7 +30,7 @@ $user = auth()->user()
             <li class="nav-item">
               <a class="nav-link" href="/game">Play a Game</a>
             </li>
-
+            
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{$name}}
@@ -50,12 +51,13 @@ $user = auth()->user()
       </div>
     </nav>
   </navbar>
+  </header>
   <script>
     let input = document.getElementById('inputsearch')
     let button = document.getElementById('buttonSearch')
     input.addEventListener('change', () =>{
       if(input.value){
-      button.disabled = false
-    }
+        button.disabled = false
+      }
     })
-  </script>
+    </script>

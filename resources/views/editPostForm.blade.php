@@ -22,22 +22,17 @@
     <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded fluid-form" >
       {{--! tambahkan  enctype="multipart/form-data" jika ada upload file--}}
       <h2 class="title">Edit Post</h2>
-          <form action="/editpost/{{$post->id}}" method="POST" enctype="multipart/form-data"> 
+          <form action="/editpost/{{$postToEdit->id}}" method="POST" enctype="multipart/form-data"> 
               @csrf
               @method('PUT')
               
-      <div class="mb-3">
-       
-          <label for="exampleFormControlInput1" class="form-label">title</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" name="title" value="{{$post->title}}">
-        </div>
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">images</label>
-          <input type="file" class="form-control" id="exampleFormControlInput1" name="images"  value="{{$post->images}}">
+          <input type="file" class="form-control" id="exampleFormControlInput1" name="images"  value="{{$postToEdit->images}}">
         </div>
         <div class="mb-3">
           <label for="exampleFormControlTextarea1" class="form-label">description</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body">{{$post->body}}</textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body">{{$postToEdit->body}}</textarea>
         </div>
         <div class="d-grid gap-2 col-6 mx-auto">
         <button type="submit" class="btn btn-dark">Save</button>

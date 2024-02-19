@@ -1,273 +1,307 @@
-#row1{
-    display:flex; 
-    flex-direction:row; 
-}
 body{
-    background-color: rgb(244, 247, 247);
     margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+
 
 }
-header{
-    padding: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-}
-  .card-image-head{
-    height: 200px;
-    width: 100%;
-    border-radius: 5%;
-    object-fit: none;
-    background: #dfdfdf;
-
-  }
-  .img-cont{
-    padding: 5px;
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
-.box1{
-    background-color: white;
-    box-shadow: 5px 5px 5px;
-    border-radius: 5px;
+  
+/*! login & register page */
+#loginPage{
+    background-color: black;
 }
-.title{
-    text-align: center;
-
-}
-
-/* ! */
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 25%;
-    flex-direction: column;
-}
-.cont-register{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.container-viewpost{
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-
-}
-.over{
-    height: 50px;
-    width: auto;
-    overflow:hidden;
-    margin-bottom: 5px;
-}
-.postCont{
-    border-radius: 10px;
-    background-color: white;
-}
-.comment{
-    width: 100%;
-    height: 150px;
-    overflow: auto;
-}
-.commentText{
-    margin: 1px;
-    font-size: small;
-}
-.commentContainer{
-    margin-top: 10px;
-}
-.rowContainer{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 40px;
-    margin: 0;
-    align-self: flex-end;
-    margin-top: 5px;
-}
-.colContainer{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-
-}
-.mypostover{
-    height: 10rem;
-    overflow: hidden;
-    background-color: rgb(241, 241, 241);
-    padding: 5px;
-    border-radius: 5px;
-}
-.readMore{
-    margin-top: 10px;
-    align-items: end;
-    display: flex;
-    justify-content: end;
-}
-
-.thumbnailImgProfile{
-    height: 50px;
-    width: 50px;
-    border-radius: 30px;
-}
-.profile-overflow{
-    height: 250px;
-    overflow:auto;
-    margin-bottom: 5px;
-}
-
-/** messages */
-
-.img-receiver{
-    height: 35%;
-    width: 50%;
-    margin-bottom: 20px;
-    margin-top: -100px;
-    border-radius: 25px;
-}
-.image{
+.contentLogin{
     width: 100%;
     height: 100%;
-    border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }
+#logo {
+    background-image: url('logo_socialcloneBW.png');
+    background-size: 70% 75%;
+    background-repeat: no-repeat;
+    background-position: center center; /* Tengahkan background */
+    height: 100vh; /* Gunakan viewport height untuk tinggi 100% */
+    width: 60%;
+    animation: fadeIn 1s ease-in-out; /* Terapkan animasi fade-in */
+}
+#form{
+    padding: 20px;
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    animation: fadeIn 1s ease-in-out; /* Terapkan animasi fade-in */
 
-.msg-receiver{
-    align-self: start;
 }
-.msg-user{
-    align-self: flex-end;
-}
-.btn-msg{
+#container-form{
+    /* height: 50%; */
     width: 50%;
-    height: 70px;
-    padding: 5px;
+    padding: 50px;
+    border-radius: 10%;
+    background-color: rgb(59, 58, 58.0.5);
+    border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/*! list user */
+
+#suggestions{
+width: 100%;
+display: flex;
+flex-direction: row;
+justify-content:space-between;
+}
+#image-suggestions{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+.list-group-item{
+    color: white;
+    background-color: rgb(0, 0, 0, 50);
 
 }
+/*! card */
+.cardProfile{
+    height: 200px;
+    width: auto;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    background-color: rgb(78, 78, 78);
+}
+.card-inner{
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
+.card-image{
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+    object-fit: fill;
+    /* background: #ffffff; */
+}
+
+.card-body{
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+.card-content{
+    width: 100%;
+    height: 100%;
+
+}
+.card-footer{
+    width: 100%;
+    height: 25%;
+    padding: 5px;
+}
+.img-card{
+    height: 185px;
+    width: 80%;
+    border-radius: 10%;
+    object-fit: cover;
+}
+.card-text-body{
+   height: 100%;
+   width: 100%;
+}
+.footer-data{
+width: 100%;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+.card-footer{
+border-top: 2px solid grey
+}
+.bio{
+    height: 75px;
+    width: 100%;
+    margin-bottom:5px; 
+    overflow: auto;
+
+}
+.container-info-char{
+
+    height: 30px;
+}
+/*! search result */
+.SearchResult-body{
+    max-height: 250px;
+}
+#image-result{
+    width: 100%;
+    height: 150px;
+    border-radius: 5px;
+}
+/*! home page */
 #loadingOverlay{
     display: flex;
     position: relative;
     top: 50%;
 }
-
-.container-view-images{
+main{
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-}
-.container-image-post-profile{
-    width: 100%;
-    height: 50%;
-}
-
-.footer{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    height: 75px;
-}
-/* allpost */
-.containerHome{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-article{
-    width: 50%;
+    color: white;
+    justify-content: space-between;
+    height: 80%;
 
 }
 aside{
-    width: 25%;
+    width: 30%;
+    /* background-color: red; */
 }
-/* profile */
-.container-image-post-profile {
-    display: flex;
-    flex-wrap: wrap;
-    height: 700px;
+article{
+    width: 35%;
+    /* background-color: greenyellow; */
+}
+section{
+    width: 30%;
+    /* background-color: blue; */
+}
+footer{
     width: 100%;
-}
-
-.fluid{
-    border-radius: 25px;
-    max-height: 100%;
-    max-width: 100%;
-    min-height: 100%;
-    min-width: 100%;
-}
-.content{
-    width: 100%;
-    height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+
 }
-#content{
-    width: 100%;
-    height: 100%;
+#container-post{
+    height: auto;
+    border-radius: 10px;
+    background-color: rgb(56, 56, 56);
+    padding: 15px;
+
+}
+.text-body-post{
+        max-height: 50px;
+        width: auto;
+        overflow:hidden;
+        margin-bottom: 5px;
+}
+#container-images{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-}
 
-.fluid-form{
-    background-color: white;
-    border-radius: 25px;
-    width: 90%; /* Sesuaikan lebar sesuai kebutuhan */
-    max-width: 400px; /* Atur lebar maksimum jika diperlukan */
-    min-width: 250px; /* Atur lebar minimum jika diperlukan */
-    padding: 20px; /* Tambahkan padding sesuai kebutuhan */
+    height: 250px;
+    width: 100%;
 }
-@media (max-width: 1200px) {
-    .fluid-login {
-        width: 90%; /* Sesuaikan lebar untuk layar yang lebih kecil */
-    }
-    .container-image-post-profile{
-        height: 25%;
-    }
-   .containerHome{
-    flex-direction: column;
-   }
-   aside, article{
-    width: 100vw;
-    margin-bottom: 20px;
-}
-/* .card-body{
+.comment-container{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: start;
-} */
-
-.card-body-cont{
-    margin-top: 1px;
-}
-.card-image{
-    height: 200px;
-}
-
-.img-cont{
-    height: 25%;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
-    background-color: aqua;
+    height: 250px;
+    overflow: auto;
+    padding: 10px;
 }
+#likebtn {
+    width: 10%;
+}
+#likesCount{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.modal-content{
+    background-color: rgb(94, 94, 94);
+    color: white;
+}
+/*! profile */
+.profile-info{
+    height: 30%;
     
 }
-#container-notif{
-    height: 50px;
-    width: 400px;
+#dataUser-post{
     display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
 }
+/*! messages */
+#container-user-msg{
+    width: 20%;
+}
+#container-chat-msg{
+    width: 55%;
+}
+#container-info-msg{
+    width: 20%;
+}
+#container-all-msg{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+.container-chat-form{
+    background-color: aqua;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+}
+
+
+@media(max-width:750px) {
+    #form{
+        width: 100%;
+    }
+    #logo{
+        display: none;
+    }
+    #container-form{
+        width: 75%;
+
+    }
+    main{
+        flex-direction: column;
+    }
+    aside{
+        width: 100%;
+        /* background-color: red; */
+    }
+    article{
+        width: 100%;
+        /* background-color: greenyellow; */
+    }
+    section{
+        width: 100%;
+        /* background-color: blue; */
+    }
+    }

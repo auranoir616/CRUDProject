@@ -5,7 +5,6 @@ $followingCount = DB::table('follower')->where('user_id',$user->id)->count('foll
 $followingCount = $followingCount - 1 ;
 $followerCount = DB::table('follower')->where('following_user',$user->id)->count('following_user');
 $followerCount = $followerCount - 1;
-
 ?>
  <style>
   .cards{

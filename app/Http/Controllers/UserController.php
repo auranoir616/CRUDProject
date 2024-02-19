@@ -101,7 +101,7 @@ public function editUser(User $datauser, Request $request){
         'editUsername' => ['required', 'min:4', 'max:12', Rule::unique('users', 'username')->ignore($datauser->id)],
         'editEmail' => ['required', 'email', Rule::unique('users', 'email')->ignore($datauser->id)],
         'editPassword' => ['sometimes', 'min:4'],
-        'editBio'=> 'required',
+        // 'editBio'=> 'required',
         'editImagesProfile' => 'sometimes','nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
     ]);
     $file = $request->file('editImagesProfile');
@@ -115,7 +115,7 @@ public function editUser(User $datauser, Request $request){
                 'username' => $request->editUsername,
                 'email' => $request->editEmail,
                 // 'password' => $data['editPassword'] ?? null,
-                'bio'=> $request->editBio,
+                // 'bio'=> $request->editBio,
                 'Images_profile' => $nama_file
             ];
             //validasi format gambar

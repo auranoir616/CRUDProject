@@ -49,10 +49,6 @@
     <hr>
       <form action="/createpost" method="POST" enctype="multipart/form-data"> 
           @csrf
-  <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">title</label>
-      <input type="text" class="form-control" id="exampleFormControlInput1" name="title">
-    </div>
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">images</label>
       <input type="file" class="form-control" id="exampleFormControlInput1" name="images">

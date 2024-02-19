@@ -8,47 +8,34 @@
 
     <title>login</title>
 </head>
-<body>
+{{-- <body id="loginPage">
+  <div onclick=disappear() id="notif">
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+  @endif
+  
+  @if(session('error'))
+    <div class="alert alert-secondary">
+        {{ session('error') }}
+    </div>
+  @endif
+  </div> --}}
   <?php 
   $name = session('name');
   ?>
-   @auth
-@include('_navbar')
-        @else
-        <div class="content">
-          <div  id="container-notif">
-            <div onclick=disappsear() id="notif">
-              {{-- menampilkan error dari session --}}
-              @if(session('success'))
-              <div class="alert alert-success">
-                <b> {{ session('success') }}</b>
-              </div>
-            @endif
-            
-            @if(session('error'))
-              <div class="alert alert-danger">
-                <b > {{ session('error') }}</b>
-              </div>
-            @endif
-              {{-- menampilkan error dari validasi  --}}
-                @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                <li><b>{{ $error }}</b></li>
-                @endforeach
-          </ul>
-            </div>
-               @endif
-      </div>
-      </div>
-          <div class=" fluid-form" >
-      
+        <div class="contentLogin">
+          <div id="logo"> 
+
+          </div>
+          <div id="form">         
+          <div id="container-form">
+
             <form action="/login" method="POST">
               @csrf
-             
            <div class="mb-3 ">
-            <h2 class="title">login</h2>
+            <h2 class="title" align="center">Login</h2>
               <label for="exampleInputEmail1" class="form-label">Username</label>
               <input type="text" class="form-control" id="InputUsername" aria-describedby="emailHelp" name="inputUsername">
             </div>
@@ -56,25 +43,25 @@
               <label for="exampleInputPassword1" class="form-label">Password</label>
               <input type="password" class="form-control" id="InputPassword" name="inputPassword" >
             </div>
-            <button type="submit" class="btn btn-primary" id="buttonlogin">Login</button>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button type="submit" class="btn btn-secondary" id="buttonlogin">Login</button>
+            </div>
           </form>
-          <a href="/registerPage">register</a>            
-          <a href="/">Back</a>  
-
+          <div>
+            <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-light" href="/registerPage">
+              Register
+            </a>
+            
+          </div>
+        </div>
+        
         </div>
         </div>
    
-@endauth
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script>
-  const notif = document.getElementById('notif')
- notif.style.display = 'block'
- const time = 2000
- setTimeout(() => {
-   notif.style.display = 'none'
- }, time);
 
     // let btn = document.getElementById('buttonlogin')
     // let userinput = document.getElementById('InputUsername')
