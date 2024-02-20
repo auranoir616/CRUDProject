@@ -3,9 +3,7 @@
 ?>
       <div>
         @if($postdata->isEmpty())
-        <div class="container">
-          <h1>Belum ada postingan</h1>
-        </div>
+          <h1 align="center">NO post</h1>
         @else
         <hr>
     @foreach ($postdata as $data)

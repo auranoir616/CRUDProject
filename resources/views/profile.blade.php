@@ -40,11 +40,6 @@
   </div>
 @endif
 </div> --}}
-  @if($postdata->isEmpty())
-  <div class="container">
-    <h1>Belum ada postingan</h1>
-  </div>
-  @else
   <aside >
     <div class="profile-info">
     </div>
@@ -53,6 +48,9 @@
   <article>
     <hr>
     @include('_cardprofile')
+    @if($postdata->isEmpty())
+    <h1 align="center">NO post</h1>
+    @else
     @include('_userpost')
   </article>
   <section>
