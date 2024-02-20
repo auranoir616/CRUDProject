@@ -3,7 +3,7 @@
 ?>
       <div>
         @if($postdata->isEmpty())
-          <h1 align="center">NO post</h1>
+          <h3 align="center">no posts yet, create a post or follow someone...</h3>
         @else
         <hr>
     @foreach ($postdata as $data)

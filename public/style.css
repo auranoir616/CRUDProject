@@ -180,15 +180,13 @@ main{
 }
 aside{
     width: 30%;
-    /* background-color: red; */
 }
 article{
     width: 35%;
-    /* background-color: greenyellow; */
 }
 section{
     width: 30%;
-    /* background-color: blue; */
+    
 }
 footer{
     width: 100%;

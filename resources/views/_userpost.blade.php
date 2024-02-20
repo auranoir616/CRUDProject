@@ -4,7 +4,7 @@
       <div>
         @if($postdata->isEmpty())
         <div class="container">
-          <h1>Belum ada postingan</h1>
+          <h3 align="center">no posts yet, create a post or follow someone...</h3>
         </div>
         @else
 

@@ -40,23 +40,19 @@
   </div>
 @endif
 </div> --}}
-  <aside >
-    <div class="profile-info">
-    </div>
-    
+  <aside >    
   </aside>
   <article>
     <hr>
     @include('_cardprofile')
-    @if($postdata->isEmpty())
-    <h1 align="center">NO post</h1>
-    @else
+    {{-- @if($postdata->isEmpty())
+    <h3 align="center">no posts yet, create a post or follow someone...</h3>
+    @else --}}
     @include('_userpost')
+    {{-- @endif --}}
   </article>
   <section>
-
   </section>
-  @endif
   
 </main>
 </body>
