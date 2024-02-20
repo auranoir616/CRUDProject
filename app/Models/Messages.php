@@ -9,7 +9,7 @@ class Messages extends Model
 {
     use HasFactory;
     protected $table = 'messages';
-    protected $fillable = ['user_id','content','recipient_id','id_chat'];
+    protected $fillable = ['user_id','content','recipient_id','id_chat','read_status'];
     protected $dates = ['send_at'];
 
     public function Sender(){

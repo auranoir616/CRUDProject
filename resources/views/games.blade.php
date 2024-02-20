@@ -14,6 +14,8 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            background-color: black;
+            color: white
         }
         #canvas1{
             border: 5px solid black;

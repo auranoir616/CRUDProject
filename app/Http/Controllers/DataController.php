@@ -85,8 +85,6 @@ class DataController extends Controller
              $data->formatted_updated_at = $postController->formatTimeAgo($data->updated_at);
         }
 
-        // dd($resultsPost);
-        // return response()->json(['resultsPost' => $resultsPost,'resultsUser' => $resultsUser ]);
         return view('searchResults', compact('resultsPost','resultsUser','comments','sharepage'));
         }
         else{
@@ -100,32 +98,62 @@ class DataController extends Controller
         $sender = auth()->id();
         $receiver = $datauser->id;
         $receiverName = $datauser->name;
-        $sendto = $sender.$receiver;
-        $receivefrom = $receiver.$sender;
-
+        $chatIds = [$sender, $receiver];
+        sort($chatIds);
+        
+        //sort users
         $result = DB::table('messages')
         ->where('user_id', $sender)
         ->groupBy('recipient_id')
-        ->orderByDesc(DB::raw('MAX(updated_at)'))
+        ->orderByDesc(DB::raw('MAX(created_at)'))
         ->pluck('recipient_id');
-        
         $userdata = DB::table('users')->whereIn('id',$result)->get();
         $resultArray = $result->toArray();
         $userdatasorted = $userdata->sortBy(function ($user) use ($resultArray) {
-                return array_search($user->id, $resultArray);
-            });
-            // dd($result);
+            return array_search($user->id, $resultArray);
+        });
+        //mencari data inbox yang belum dibalas
+        $idChat = DB::table('messages')->distinct()->pluck('id_chat');
+        $inboxData = Messages::where('recipient_id', $sender)
+        ->where('read_status', 0)
+        ->select('user_id')
+        ->groupBy('user_id')
+        ->orderByDesc(DB::raw('MAX(created_at)'))
+        ->pluck('user_id');
+        $userdataInbox = DB::table('users')->whereIn('id',$inboxData)->get();
+        $resultArrayInbox = $inboxData->toArray();
+        $userdatasortedInbox = $userdataInbox->sortBy(function ($user) use ($resultArrayInbox) {
+            return array_search($user->id, $resultArrayInbox);
+        });
+        
+        $inboxMessages = Messages::where('recipient_id', $sender)->where('read_status', 0)->get();
+        $inboxCount =  Messages::where('recipient_id', $sender)->where('read_status', 0)->count();
+
             $messagesSender = DB::table('messages')
-                            ->where('id_chat',$sendto)
-                            ->orwhere('id_chat',$receivefrom)
-                            ->orderBy('updated_at','desc')
+                            ->where('id_chat', implode('', $chatIds))
+                            ->orderBy('created_at','desc')
                             ->get();
-             $newMessages = DB::table('messages')->where('recipient_id', $sender)->select('user_id')->distinct()->get();
-        return view('message', compact('sender','result','receiver','messagesSender','userdatasorted','datauser','receiverName','newMessages'));
+            
+         $formatedTimeFunc = app('App\Http\Controllers\PostController');
+        foreach($messagesSender as $data) {
+            $formatTime = $formatedTimeFunc->formatTimeAgo($data->created_at);
+         $data->formatted_updated_at = $formatedTimeFunc->formatTimeAgo($data->created_at);
+                         }
+        return view('message', compact('sender','result','receiver','messagesSender','userdatasorted','datauser','receiverName','inboxMessages','inboxCount','userdatasorted','userdatasortedInbox'));
     }else{
         return redirect('loginpage');
     }  
 
+    }
+    public function readInbox(Messages $messages){
+        $user = auth()->user();
+        $messages->update(['read_status' => 1]);
+        return response()->json(['messages' => $messages]);
+    }    
+    public function getInbox(){
+        $sender = auth()->id();
+        $inboxCount =  Messages::where('recipient_id', $sender)->where('read_status', 0)->count();
+        return response()->json(['inboxCount' => $inboxCount]);
     }
 
     public function sendMessages(Messages $msg, Request $request){
@@ -134,11 +162,15 @@ class DataController extends Controller
         ]);
         $sender = auth()->user();
         $receiver = $request->input('reciever');
+        $chatIds = [$sender->id, $receiver];
+        sort($chatIds);
+
         if($data){
             $messages = new Messages;
             $messages->content = $request->input('content'); 
             $messages->recipient_id = $request->input('reciever');
-            $messages->id_chat = $sender->id.$request->input('reciever');
+            // Gabungkan id pengirim dan penerima yang sudah diurutkan
+            $messages->id_chat = implode('', $chatIds);
             $messages->user_id = auth()->id();
        if($messages->save()){
         return redirect()->back();

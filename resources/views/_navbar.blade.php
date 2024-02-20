@@ -24,8 +24,14 @@ $user = auth()->user()
             <li class="nav-item">
               <a class="nav-link" href="/myprofile">Profile</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/messages/{{$user->id}}">Messages</a>
+            <li class="nav-item position-relative" >
+              <a class="nav-link " href="/messages/{{$user->id}}">Messages
+                {{-- @if(isset($inboxCount) && $inboxCount > 0) --}}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="inboxBadge">
+                  {{-- {{$inboxCount}} --}}
+                </span>
+                {{-- @endif --}}
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/game">Play a Game</a>
@@ -60,4 +66,11 @@ $user = auth()->user()
         button.disabled = false
       }
     })
+    let badge = document.getElementById('inboxBadge')
+    fetch('/getInbox')
+    .then(res => res.json())
+    .then(data => {
+     badge.textContent = data.inboxCount
+    })
+
     </script>

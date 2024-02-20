@@ -175,7 +175,7 @@ main{
     flex-direction: row;
     color: white;
     justify-content: space-between;
-    height: 80%;
+    height: 90%;
 
 }
 aside{
@@ -255,13 +255,27 @@ footer{
 }
 /*! messages */
 #container-user-msg{
+    padding: 15px;
     width: 20%;
+    background-color: black;
+    overflow: auto;
 }
 #container-chat-msg{
+    padding: 10px;
     width: 55%;
+    background-color: rgb(31, 31, 31);
+    border-radius: 5px;
+
 }
 #container-info-msg{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     width: 20%;
+    background-color: black;
+
 }
 #container-all-msg{
     display: flex;
@@ -269,14 +283,52 @@ footer{
     justify-content: space-between;
 }
 .container-chat-form{
-    background-color: aqua;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: end;
-
 }
-
+.container-chat-content{
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.sender-msg{
+    align-self: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+    
+}
+.container-msg{
+    display: flex;
+    flex-direction: column;
+    /* align-items: end; */
+}
+#noChat-msg{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.image-user-msg{
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+}
+#container-info-msg-user{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 @media(max-width:750px) {
     #form{
@@ -304,4 +356,18 @@ footer{
         width: 100%;
         /* background-color: blue; */
     }
+    #container-user-msg{
+        width: 20%;
+        height: auto;
+    }
+    #container-chat-msg{
+    width: 80%;
+    }
+    #container-info-msg{
+        display: none;
+    }
+    #user-name-msg{
+        display: none;
+    }
+    
     }

@@ -27,52 +27,100 @@
         </div>
       @endif --}}
 {{-- users --}}
-<main id="container-all-mgs">
-
+<main id="container-all-msg">
+  {{-- message --}}
+  
 <aside id="container-user-msg">
-
-  <div class="cont-btn-msg">  
-    <div class="cont-user">
+<br>
+<ul class="nav nav-underline justify-content-center nav nav-pills nav-fill">
+  <li class="nav-item">
+    <a class="nav-link link-light" href="#" onclick="currentChat(); event.preventDefault();">Chat</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link link-light position-relative" href="#"  onclick="unreplyInbox(); event.preventDefault();">
+      Inbox
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{$inboxCount}}
+      </span>
+    </a>
+    
+  </li>
+</ul>
+      <div class="list-group list-group-flush" id="chat">
       @foreach($userdatasorted as $user)
-      <div class="user-msg alert @if($user->id == $receiver) alert-dark @else alert-light @endif" role="alert">
+      <a href="/messages/{{$user->id}}" class="list-group-item list-group-item-action stretched-link">
         <img src="../data_file/{{$user->Images_profile}}" alt="" id="image-suggestions">
-        <a href="/messages/{{$user->id}}" class="alert-link stretched-link">{{$user->name}}</a>
-      </div>
-      @endforeach
-    </div>
+        <span id="user-name-msg">
+          {{$user->name}}
+        </span>
+        @php
+        $unreadCount = $inboxMessages->where('user_id', $user->id)->where('read_status', 0)->count();
+        @endphp
+        @if(!$unreadCount)
+        @else
+        <span class="badge bg-danger rounded-pill" msgId="{{$user->id}}" id="inbox{{$user->id}}">
+          {{$unreadCount}}
+        </span>
+        @endif
+      </a>
+      @endforeach 
   </div>
 
-</aside>
-  {{-- message --}}
-  <article id="container-chat-msg">
+  <div class="list-group list-group-flush" id="inbox" hidden>
 
+    @foreach($userdatasortedInbox as $user)
+    @if($user->id == auth()->id())
+    <h3 align="center">No Unreply Messages</h3>
+    @else
+    <a href="/messages/{{$user->id}}" class="list-group-item list-group-item-action stretched-link">
+      <img src="../data_file/{{$user->Images_profile}}" alt="" id="image-suggestions">
+      {{$user->name}}
+      @php
+      $unreadCount = $inboxMessages->where('user_id', $user->id)->where('read_status', 0)->count();
+      @endphp
+      @if(!$unreadCount)
+      @else
+      <span class="badge bg-danger rounded-pill" msgId="{{$user->id}}" id="inbox{{$user->id}}">
+        {{$unreadCount}}
+      </span>
+      @endif
+    </a>
+    @endif
+    @endforeach 
+</div>
+</aside>
+
+  <article id="container-chat-msg">
     <div class="container-chat-form">
+      @if($sender == $receiver)
+      <div id="noChat-msg">
+        <h3>No Chat Selected</h3>
+      </div>
+      @endif
       <div class="container-chat-content">
-                  @if($sender == $receiver) 
-                    <h6 class="no-msg"> <a href="/listusers">klik existing users or here to start a conversation</a></h6>
-                  @endif
                   @foreach($messagesSender as $msg)
                   @if($sender == $msg->user_id)
-                  <div class="alert alert-info msg w-25 p-3 msg-user" role="alert">
-                        <figure class="text-end">
-                          <blockquote class="blockquote">
-                            <p> {{$msg->content}}</p>
-                          </blockquote>
-                          <figcaption class="blockquote-footer">
-                            send <cite title="Source Title">{{$msg->created_at}}</cite>
-                          </figcaption>
-                        </figure>
-                      </div>
+                  <div class="w-50 p-3 sender-msg" >
+                            <div class="d-inline-flex mb-3 px-3 py-2 fw-semibold text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 container-msg" >
+                              <p align="right">
+                                {{$msg->content}} 
+                              </p>
+                              <small style="font-size: 10px">
+                                {{$msg->formatted_updated_at}}
+                              </small>
+                            </div>
+                             
+                            </div>
                       @else
-                      <div class="alert alert-danger w-25 p-3 msg-receiver" role="alert">
-                        <figure class="text-start">
-                          <blockquote class="blockquote">
-                            <p> {{$msg->content}}</p>
-                          </blockquote>
-                          <figcaption class="blockquote-footer">
-                            send <cite title="Source Title">{{$msg->created_at}}</cite>
-                          </figcaption>
-                          </figure>
+                      <div class="w-50 p-3 receiver-msg">
+                        <div class="d-inline-flex mb-3 px-3 py-2 fw-semibold text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-2 container-msg" >
+                          <p msgId='{{$msg->id}}' id="pesanElement{{$msg->id}}">
+                            {{$msg->content}} 
+                          </p>
+                          <small style="font-size: 10px">
+                            {{$msg->formatted_updated_at}}
+                          </small>
+                        </div>
                         </div>
                         @endif
                         @endforeach
@@ -84,13 +132,35 @@
               </div>
           </article>
           <section id="container-info-msg">
+            <div id="container-info-msg-user">
+              <img src="../data_file/{{$datauser->Images_profile}}" alt="" class="image-user-msg">
+              <a href="/profile/{{$datauser->id}}-{{$datauser->username}}" class="link-light">
+                <h4>
+                  {{$datauser->name}}
+                </h4>
+              </a> 
+            </div>
 
           </section>
         </main>
 
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script>
+
+let chat = document.getElementById('chat')
+let inbox = document.getElementById('inbox')
+function currentChat(){
+  inbox.hidden = true
+  chat.hidden = false
+}
+function unreplyInbox(){
+  chat.hidden = true
+  inbox.hidden = false
+}
+
+
       document.addEventListener('DOMContentLoaded',function(){
         let sendbtn = document.getElementById('button-addon2')
         let msgcontainer = document.getElementsByClassName('container-chat-content')[0]
@@ -99,10 +169,11 @@
             let msgtext = document.getElementById('inputmsg')
             let msg = document.createElement('div')
             if(msgtext.value){
-            msg.className = 'alert alert-info msg w-25 p-3 msg-user'
-            msg.role = 'alert'
-            msg.innerHTML = '<figure class="text-end">' + '<blockquote class="blockquote">' +'<p>'+msgtext.value+'</p>' + '</blockquote>' + '<figcaption class="blockquote-footer">' +
-                              'send'+'<cite title="Source Title">'+'</cite>'+'</figcaption>'+'</figure>'
+            msg.className = 'w-50 p-3 sender-msg'
+            msg.style.display = 'flex';
+            msg.style.alignSelf = 'flex-end';
+            msg.innerHTML = '<div class="d-inline-flex mb-3 px-3 py-2 fw-semibold text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 container-msg">'
+                               + '<p align="right">' + msgtext.value + '</p>' + '<small style="font-size: 10px">'+ 'just now' + '</small>' + '</div>'
             msgcontainer.insertBefore(msg, msgcontainer.firstChild);
             fetch('/sendmsg',{
               method:"POST",
@@ -118,10 +189,60 @@
               console.log(err)
             })
             msgtext.value = ''
+            msgtext.focus();
           }
           })
-        
+
       })
+      function readInbox(messages){
+            fetch(`/readInbox/${messages}`)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data)
+            })
+            .catch( err => {
+              console.log(err)
+            }
+            )
+          }
+  var elemenmsgList = document.querySelectorAll('p[msgId]');
+    elemenmsgList.forEach(function(elemenmsg) {
+    var msgId = elemenmsg.getAttribute('msgId');
+    var targetElement = document.querySelector(`#pesanElement${msgId}`);
+//function untuk mendeteksi pesan dilihat atau tidak
+var observer = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(function(entry) {
+        // entry.isIntersecting akan true jika elemen terlihat dalam viewport
+        if (entry.isIntersecting) {
+            // Lakukan tindakan yang diinginkan, misalnya, tandai pesan sebagai sudah dibaca
+            markMessageAsRead(msgId);
+            // Unobserve elemen setelah terlihat agar tidak mendeteksinya lagi
+            observer.unobserve(entry.target);
+
+        }
+    });
+}, { threshold: 1 }); // threshold: 1 artinya akan memicu saat seluruh elemen terlihat
+// Memulai pengawasan pada elemen target
+observer.observe(targetElement);
+if(observer.observe(targetElement)){
+            var elemenInbox = document.querySelectorAll('span[msgId]');
+            elemenInbox.forEach(function(inbox) {
+            var msgId = inbox.getAttribute('msgId');
+            var inboxText = document.querySelector(`#inbox${msgId}`);
+            inboxText.textContent = '0';
+          })
+        }
+// Fungsi untuk menandai pesan sebagai sudah dibaca
+function markMessageAsRead(msgId) {
+    fetch(`/readInbox/${msgId}`)
+    .then(res => res.json())
+    .then(data =>{
+    })
+}
+})
+
+
+
     </script>
     
 </body>

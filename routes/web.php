@@ -41,6 +41,8 @@ Route::get('/messages/{datauser}',[DataController::class, 'messagesPage']);
 //     $reciever = $datauser->id;
 //     return view('message', compact('sender','reciever'));
 // });
+Route::get('/readInbox/{messages}',[DataController::class, 'readInbox']);
+Route::get('/getInbox',[DataController::class, 'getInbox']);
 
 
 Route::post('/sendmsg',[DataController::class, 'sendMessages']);
