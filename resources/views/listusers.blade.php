@@ -26,12 +26,14 @@
               <a href="/profile/{{$user->id}}-{{$user->username}}" class="link-light link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                 {{$user->username}}
               </a>
-              <a href="/messages/{{$user->id}}" class="btn btn-outline-secondary">message</a>
             </div>
             <div>
-              <button type="submit" @if(auth()->user()->followedUser->contains($user->id)) class="btn btn-secondary btnFollow btn-sm" @endif class="btn btn-light btnFollow btn-sm" following_user_id="{{$user->id}}">
-                {{ auth()->user()->followedUser->contains($user->id) ? 'Unfollow' : 'Follow' }}
-              </button>
+              <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="submit" @if(auth()->user()->followedUser->contains($user->id)) class="btn btn-secondary btnFollow btn-sm" @endif class="btn btn-light btnFollow btn-sm" following_user_id="{{$user->id}}">
+                  {{ auth()->user()->followedUser->contains($user->id) ? 'Unfollow' : 'Follow' }}
+                </button>
+                <a href="/messages/{{$user->id}}" class="btn btn-outline-secondary">message</a>
+              </div>
             </div>
             
           </div>

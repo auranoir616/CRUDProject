@@ -23,11 +23,11 @@ class UserController extends Controller
             'registerPassword' => ['required'],
             'registerImagesProfile' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048'
         ],[
-            'registerName.required' =>'>Name must be filled ',
-            'registerUsername.required' =>'>Usename must be filled ',
-            'registerEmail.required' =>'>email must be filled ',
-            'registerPassword.required' =>'>password must be filled ',
-            'registerImagesProfile.required' =>'>images must be filled '
+            'registerName.required' =>'Name must be filled ',
+            'registerUsername.required' =>'Usename must be filled ',
+            'registerEmail.required' =>'email must be filled ',
+            'registerPassword.required' =>'password must be filled ',
+            'registerImagesProfile.required' =>'images must be filled '
         ]);
         
         $data['registerPassword'] = bcrypt($data['registerPassword']);
@@ -53,7 +53,7 @@ class UserController extends Controller
     
                return redirect('/loginpage')->with('success', 'registration success, please login...');
             }else {
-                return redirect('/')->with('error', 'registration failed');
+                return redirect()->back()->with('error', 'registration failed');
             }
         }
        

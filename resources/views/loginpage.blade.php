@@ -8,20 +8,6 @@
 
     <title>login</title>
 </head>
-{{-- <body id="loginPage">
-  <div onclick=disappear() id="notif">
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-  @endif
-  
-  @if(session('error'))
-    <div class="alert alert-secondary">
-        {{ session('error') }}
-    </div>
-  @endif
-  </div> --}}
   <?php 
   $name = session('name');
   ?>
@@ -29,9 +15,26 @@
           <div id="logo"> 
 
           </div>
-          <div id="form">         
+          <div id="form">   
+            <div id="container-alert">
+              <div id="alertwarning">
+                @if(session('success'))
+              <div class="alert alert-success">
+                  {{ session('success') }}
+                </div>
+                @endif
+                
+                @if(session('error'))
+                <div class="alert alert-secondary">
+                  {{ session('error') }}
+                </div>
+                @endif
+              </div>
+            </div>
+              
           <div id="container-form">
-
+            <body id="loginPage">
+            
             <form action="/login" method="POST">
               @csrf
            <div class="mb-3 ">
@@ -62,20 +65,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script>
+// document.getElementById('loadingOverlay').style.display= 'block'
+// document.getElementById('content').style.display= 'none'
+setTimeout(() => {
+    document.getElementById('alertwarning').style.display= 'none'
+    document.getElementById('content').style.display= 'block'
 
-    // let btn = document.getElementById('buttonlogin')
-    // let userinput = document.getElementById('InputUsername')
-    // let inputpassword = document.getElementById('InputPassword')
-    // let alert = document.getElementById('alertwarning')
-    // alert.style.display = 'none'
-    // btn.addEventListener('click',function(){
-    //   if(!userinput.value || !inputpassword.value){
-    //     alert.style.display = 'block'
-    //   } else {
-    //     alert.style.display = 'none'
-    //   }
-
-    // })
+    }, 3000);
 </script>
-
 </html>

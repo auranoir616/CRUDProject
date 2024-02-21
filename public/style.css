@@ -20,6 +20,10 @@ body{
 #loginPage{
     background-color: black;
 }
+#container-alert{
+height: 60px;
+width: auto;
+}
 .contentLogin{
     width: 100%;
     height: 100%;

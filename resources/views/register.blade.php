@@ -14,27 +14,41 @@
   ?>
         <div class="contentLogin">
           <div id="logo"> 
-
+            
           </div>
-          <div id="form">         
-          <div id="container-form">
-
-            <form action="/register" method="POST" enctype="multipart/form-data" id="dataform">
-              @csrf
-              <h2 class="title">register</h2>
-              <div onclick=disappear() id="notif">
-                @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+          <div id="form"> 
+          <div id="container-alert" class="z-3">
+            <div id="alertwarning">
+              @if(session('success'))
+              <div class="alert alert-success">
+                {{ session('success') }}
+              </div>
               @endif
               
               @if(session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-              @endif
+              <div class="alert alert-danger">
+                {{ session('error') }}
               </div>
+              @endif
+              @if ($errors->any())
+              <div class="alert alert-danger">
+                <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
+          
+        </div>
+        
+      </div>        
+      <div id="container-form">
+        
+            <form action="/register" method="POST" enctype="multipart/form-data" id="dataform">
+              @csrf
+              <h2 class="title" align="center">Register</h2>
+              <hr>
               <div class=" mb-3 ">
                 <label for="exampleInputEmail1" class="form-label">Name</label>
                 <input type="text" class="form-control" name="registerName">
@@ -75,19 +89,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script>
 
-    // let btn = document.getElementById('buttonlogin')
-    // let userinput = document.getElementById('InputUsername')
-    // let inputpassword = document.getElementById('InputPassword')
-    // let alert = document.getElementById('alertwarning')
-    // alert.style.display = 'none'
-    // btn.addEventListener('click',function(){
-    //   if(!userinput.value || !inputpassword.value){
-    //     alert.style.display = 'block'
-    //   } else {
-    //     alert.style.display = 'none'
-    //   }
+setTimeout(() => {
+    document.getElementById('alertwarning').style.display= 'none'
+    document.getElementById('content').style.display= 'block'
 
-    // })
+    }, 3000);
 </script>
 
 </html>
