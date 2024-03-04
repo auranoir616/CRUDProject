@@ -11,7 +11,8 @@ $followerCount = $followerCount - 1;
   </style>
   <div class="cardProfile">
       <div class="card-inner">
-        <div class="card-image" style="background-image: url('../data_file/{{$user->Images_profile}}'); background-size: cover;">              {{-- <img src="../data_file/{{$user->Images_profile}}" alt="" class="img-card"> --}}
+          <div class="card-image">
+              <img src="../data_file/{{$user->Images_profile}}" alt="" class="img-card">
           </div>
           <div class="card-body">
               <div class="card-content">
