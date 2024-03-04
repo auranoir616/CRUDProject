@@ -34,7 +34,7 @@ $user = auth()->user()
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/game">Play a Game</a>
+              <a class="nav-link" href="/game">Game</a>
             </li>
             
             <li class="nav-item dropdown">

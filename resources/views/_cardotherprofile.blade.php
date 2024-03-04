@@ -79,8 +79,8 @@
   </div>
   <script>
 
-let btnfollows = document.querySelectorAll('.btnFollow')
-btnfollows.forEach(function(btn){
+let btnfollow = document.querySelectorAll('.btnFollow')
+btnfollow.forEach(function(btn){
   btn.addEventListener('click', function(){
       let user_id = this.getAttribute('following_user_id')
       console.log('user',user_id)

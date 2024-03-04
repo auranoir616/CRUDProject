@@ -86,7 +86,7 @@ justify-content:space-between;
 .cardProfile{
     height: 200px;
     width: auto;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     padding: 5px;
     color: white;
     background-color: rgb(78, 78, 78);
@@ -102,12 +102,15 @@ justify-content:space-between;
 }
 .card-image{
     height: 100%;
-    width: 40%;
+    width: 30%;
+    min-width: 30%;
+    margin-right: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 5%;
+
+    border-radius: 20%;
     object-fit: fill;
     /* background: #ffffff; */
 }
@@ -368,5 +371,9 @@ footer{
     #user-name-msg{
         display: none;
     }
+    .card-image{
+        height: 100%;
+        width: 50%;
+    }    
     
     }

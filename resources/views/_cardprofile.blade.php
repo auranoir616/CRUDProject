@@ -11,8 +11,7 @@ $followerCount = $followerCount - 1;
   </style>
   <div class="cardProfile">
       <div class="card-inner">
-          <div class="card-image">
-              <img src="../data_file/{{$user->Images_profile}}" alt="" class="img-card">
+        <div class="card-image" style="background-image: url('../data_file/{{$user->Images_profile}}'); background-size: cover;">              {{-- <img src="../data_file/{{$user->Images_profile}}" alt="" class="img-card"> --}}
           </div>
           <div class="card-body">
               <div class="card-content">
@@ -62,10 +61,12 @@ $followerCount = $followerCount - 1;
     
         <div class="mb-3">
           {{-- <label for="exampleFormControlTextarea1" class="form-label">Bio</label> --}}
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="editBio" oninput="CountChar()" maxlength="150"></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="editBio" oninput="CountCharBio()" maxlength="150"></textarea>
         </div>
-    
+        <div class="container-info-char">
+          <p id="jumlahBio">0/150</p>
         </div>
+            </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Save</button> 
@@ -97,10 +98,10 @@ $followerCount = $followerCount - 1;
     </div>
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Body Post</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body" oninput="CountChar()" maxlength="600"></textarea>
+      <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" name="body" oninput="CountChar()" maxlength="600" value=""></textarea>
     </div>
     <div class="container-info-char">
-      <p class="jumlah">0/600</p>
+      <p id="jumlahPost">0/600</p>
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
     <button type="submit" class="btn btn-light ">Post</button>
@@ -120,11 +121,19 @@ $followerCount = $followerCount - 1;
   </div>
 <script>
   function CountChar(){
+var char = document.getElementById("exampleFormControlTextarea2").value
+var jmlhchar = char.length
+console.log(jmlhchar)
+document.getElementById("jumlahPost").innerHTML = jmlhchar + '/600'
 
+}
+function CountCharBio(){
 var char = document.getElementById("exampleFormControlTextarea1").value
 var jmlhchar = char.length
-document.getElementsByClassName("jumlah")[0].innerHTML = jmlhchar + '/600'
+console.log(jmlhchar)
+document.getElementById("jumlahBio").innerHTML = jmlhchar + '/150'
 
 
 }
+
 </script>
